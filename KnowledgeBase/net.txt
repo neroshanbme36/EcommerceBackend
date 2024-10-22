@@ -1,0 +1,44 @@
+1. Creating as solution
+dotnet new sln
+-----------------------------------------
+API
+2. Creating the project in the relative to solution
+dotnet new webapi -o API
+3. Adding teh api to solution
+dotnet sln add API\
+4. Listing the project in that solution
+dotnet sln list
+5. Inside API folder adding a trusted HTTPS certificate
+API-->dotnet dev-certs https -t
+please compile again the project
+6. LaunchSettings.json --> Api->launchBrowser: false
+-----------------------------------------
+
+dotnet new classlib -o Domain
+
+dotnet sln add Src/Api
+dotnet dev-certs https
+dotnet dev-certs https -t
+
+dotnet sln add Src/API
+dotnet sln add Src/Core/Domain
+dotnet sln add Src/Core/Application
+dotnet sln add Src/Infrastructure/Infrastructure
+dotnet sln add Src/Infrastructure/Persistence
+dotnet sln add Src/Identity
+
+Application -> dotnet add reference ../Domain
+Infrastructure -> dotnet add reference ../../Core/Application
+Persistence -> dotnet add reference ../../Core/Application
+Identity -> dotnet add reference ../Core/Application
+
+API reference
+dotnet add reference ../Core/Application
+dotnet add reference ../Infrastructure/Infrastructure
+dotnet add reference ../Infrastructure/Persistence
+dotnet add reference ../Identity
+
+set ASPNETCORE_ENVIRONMENT=Production
+dotnet publish -o ..\..\..\CloudBackofficePublish
+
+dotnet run --launch-profile ApiProduction
