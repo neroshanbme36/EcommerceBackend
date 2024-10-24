@@ -20,7 +20,10 @@ namespace Application
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddScoped<ICrmStoreService, CrmStoreService>();
-
+            services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IConfigurationService, ConfigurationService>();
+            services.AddScoped<IBootstrapService, BootstrapService>();
             return services;
         }
     }

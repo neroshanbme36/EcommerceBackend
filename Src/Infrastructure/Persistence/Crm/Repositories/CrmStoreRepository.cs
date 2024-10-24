@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Crm.Repositories
 {
-  public class StoreRepository : CrmGenericRepository<Store>, IStoreRepository
+  public class CrmStoreRepository : CrmGenericRepository<Store>, ICrmStoreRepository
   {
     private readonly CrmDbContext _dbContext;
 
-    public StoreRepository(CrmDbContext dbContext) : base(dbContext)
+    public CrmStoreRepository(CrmDbContext dbContext) : base(dbContext)
     {
       _dbContext = dbContext;
     }

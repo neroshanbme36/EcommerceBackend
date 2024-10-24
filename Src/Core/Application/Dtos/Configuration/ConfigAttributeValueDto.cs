@@ -9,5 +9,9 @@ namespace Application.Dtos.Configuration
         public string? FaceBook {get; set;}
         public string? Instagram {get; set;}
         public string? Twitter {get; set;}
+        public string? PrimaryColor {get; set;}
+        public string? HoverColor {get; set;}
+        public string? FooterColor {get; set;}
+        public string? SideMenuColor {get; set;}
     }
 }

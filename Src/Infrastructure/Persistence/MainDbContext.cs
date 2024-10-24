@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
@@ -38,7 +39,8 @@ namespace Persistence
       //modelBuilder.ApplyConfiguration(new StoreConfigurations());
     }
 
-    // public DbSet<Store> Stores { get; set; }
-    // public DbSet<Device> Devices {get; set;}
+    public DbSet<Store> Stores { get; set; }
+    public DbSet<Department> Departments {get; set;}
+    public DbSet<Configuration> Configurations {get; set;}
   }
 }

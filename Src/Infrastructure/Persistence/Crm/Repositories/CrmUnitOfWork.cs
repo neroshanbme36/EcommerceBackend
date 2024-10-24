@@ -8,7 +8,7 @@ namespace Persistence.Crm.Repositories
   public class CrmUnitOfWork : ICrmUnitOfWork
   {
     private readonly CrmDbContext _dbContext;
-    private IStoreRepository? _storeRepository;
+    private ICrmStoreRepository? _storeRepository;
 
     public CrmUnitOfWork(CrmDbContext dbContext)
     {
@@ -31,7 +31,7 @@ namespace Persistence.Crm.Repositories
       GC.SuppressFinalize(this);
     }
 
-    public IStoreRepository StoreRepository =>
-        _storeRepository ??= new StoreRepository(_dbContext);
+    public ICrmStoreRepository StoreRepository =>
+        _storeRepository ??= new CrmStoreRepository(_dbContext);
   }
 }

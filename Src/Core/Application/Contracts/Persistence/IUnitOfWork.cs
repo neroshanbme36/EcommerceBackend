@@ -7,6 +7,8 @@ namespace Application.Contracts.Persistence
   {
     Task<int> Save();
     bool HasChanges();
-    //IStoreRepository StoreRepository { get; }
+    IStoreRepository StoreRepository { get; }
+    IDepartmentRepository DepartmentRepository {get;}
+    IConfigurationRepository ConfigurationRepository {get;}
   }
 }

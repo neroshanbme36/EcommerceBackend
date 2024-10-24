@@ -8,7 +8,9 @@ namespace Persistence.Repositories
   public class UnitOfWork : IUnitOfWork
   {
     private readonly MainDbContext _dbContext;
-    //private IStoreRepository? _storeRepository;
+    private IStoreRepository? _storeRepository;
+    private IDepartmentRepository? _departmentRepository;
+    private IConfigurationRepository? _configurationRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -31,7 +33,13 @@ namespace Persistence.Repositories
       GC.SuppressFinalize(this);
     }
 
-    // public IStoreRepository StoreRepository =>
-    //     _storeRepository ??= new StoreRepository(_dbContext);
+    public IStoreRepository StoreRepository =>
+        _storeRepository ??= new StoreRepository(_dbContext);
+
+    public IDepartmentRepository DepartmentRepository =>
+      _departmentRepository ??= new DepartmentRepository(_dbContext);
+
+    public IConfigurationRepository ConfigurationRepository =>
+      _configurationRepository ??= new ConfigurationRepository(_dbContext);
   }
 }
