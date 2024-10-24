@@ -9,12 +9,12 @@ using Domain.Crm.Entities;
 
 namespace Application.Features
 {
-    public class StoreService : IStoreService
+    public class CrmStoreService : ICrmStoreService
     {
         private readonly ICrmUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public StoreService(ICrmUnitOfWork unitOfWork, IMapper mapper)
+        public CrmStoreService(ICrmUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

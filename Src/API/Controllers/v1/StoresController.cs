@@ -17,9 +17,9 @@ namespace Api.Controllers.v1
   [ApiVersion("1.0")]
   public class StoresController : BaseApiController
   {
-    private readonly IStoreService _storeService;
+    private readonly ICrmStoreService _storeService;
 
-    public StoresController(IStoreService storeService)
+    public StoresController(ICrmStoreService storeService)
     {
       _storeService = storeService;
     }

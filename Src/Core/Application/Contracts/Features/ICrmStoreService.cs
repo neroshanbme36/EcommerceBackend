@@ -5,7 +5,7 @@ using Domain.Crm.Entities;
 
 namespace Application.Contracts.Features
 {
-    public interface IStoreService
+    public interface ICrmStoreService
     {
         Task<CrmStoreDto?> GetStore(string id);
         Task<Store?> GetStoreByGuid(string guid);

@@ -19,7 +19,7 @@ namespace Application
             services.Configure<Content>(configuration.GetSection("Content"));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<ICrmStoreService, CrmStoreService>();
 
             return services;
         }
