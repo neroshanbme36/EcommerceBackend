@@ -20,11 +20,11 @@ namespace Application.Features
             _mapper = mapper;
         }
 
-        public async Task<StoreDto?> GetStore(string id)
+        public async Task<CrmStoreDto?> GetStore(string id)
         {
             Store? store = await _unitOfWork.StoreRepository.Get(id);
             if (store == null) throw new NotFoundException("Store doesnt exist", id);
-            return _mapper.Map<StoreDto>(store);
+            return _mapper.Map<CrmStoreDto>(store);
         }
 
         public async Task<Store?> GetStoreByGuid(string guid)

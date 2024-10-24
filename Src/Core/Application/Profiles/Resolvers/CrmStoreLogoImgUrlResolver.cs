@@ -2,23 +2,23 @@ using Application.Dtos.Store;
 using Application.Helpers;
 using Application.Models;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Crm.Entities;
 using Microsoft.Extensions.Options;
 
 namespace Application.Profiles.Resolvers
 {
-    public class StoreLogoImgUrlResolver : IValueResolver<Store, StoreDto, string>
+    public class CrmStoreLogoImgUrlResolver : IValueResolver<Store, CrmStoreDto, string>
     {
         private readonly MicroservicesBaseUrl _microserviceBaseUrl;
         private readonly Content _content;
 
-        public StoreLogoImgUrlResolver(IOptions<MicroservicesBaseUrl> microserviceBaseUrl, IOptions<Content> content)
+        public CrmStoreLogoImgUrlResolver(IOptions<MicroservicesBaseUrl> microserviceBaseUrl, IOptions<Content> content)
         {
             _microserviceBaseUrl = microserviceBaseUrl.Value;
             _content = content.Value;
         }
 
-        public string Resolve(Store source, StoreDto destination, string destMember, ResolutionContext context)
+        public string Resolve(Store source, CrmStoreDto destination, string destMember, ResolutionContext context)
         {
             string path = _content.StoreLogosPath.Replace("{{StoreId}}", source.Id);
             string fileNameWithExt = FileHelper.GetFileNameWithExt(path, "logo", "noimage");

@@ -34,17 +34,17 @@ namespace Api.Controllers.v1
             return await _authenticationService.Register(request);
         }
 
-        [HttpPost("reset-password")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> ResetPassword(ResetPasswordDto request)
-        {
-            string email = HttpContext.User.RetrieveEmailFromPrincipal();
-            await _authenticationService.ResetPassword(email, request);
-            return Ok();
-        }
+        // [HttpPost("reset-password")]
+        // [ProducesResponseType(StatusCodes.Status200OK)]
+        // [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        // [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
+        // [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        // public async Task<ActionResult> ResetPassword(ResetPasswordDto request)
+        // {
+        //     string email = HttpContext.User.RetrieveEmailFromPrincipal();
+        //     await _authenticationService.ResetPassword(email, request);
+        //     return Ok();
+        // }
 
         // [AllowAnonymous]
         // [HttpPost("force-reset-password")]

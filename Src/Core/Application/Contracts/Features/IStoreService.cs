@@ -7,7 +7,7 @@ namespace Application.Contracts.Features
 {
     public interface IStoreService
     {
-        Task<StoreDto?> GetStore(string id);
+        Task<CrmStoreDto?> GetStore(string id);
         Task<Store?> GetStoreByGuid(string guid);
     }
 }

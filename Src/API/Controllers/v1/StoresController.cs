@@ -31,8 +31,8 @@ namespace Api.Controllers.v1
     public async Task<ActionResult<Store?>> GetStore()
     {
       string? storeGuid = HttpContext.Request.Headers[RequestHeaderCodes.STORE_GUID];
-      var storeDto = await _storeService.GetStoreByGuid(storeGuid);
-      return storeDto;
+      var store = await _storeService.GetStoreByGuid(storeGuid);
+      return store;
     }
   }
 }
