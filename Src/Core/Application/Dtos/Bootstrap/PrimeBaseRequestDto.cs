@@ -1,7 +1,7 @@
 
 namespace Application.Dtos.Bootstrap
 {
-    public class BootstrapRequestDto
+    public class PrimeBaseRequestDto
     {
         public string? CartId {get; set;}
     }

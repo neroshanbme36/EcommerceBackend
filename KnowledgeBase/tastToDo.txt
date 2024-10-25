@@ -1,3 +1,14 @@
 ProductSoftAttribute
 StoreHome - social welcome
 Loyalty
+
+Homepage
+Recommended for You / Personalized Recommendations
+Customer Reviews / Testimonials
+Blog or Editorial Content
+Newsletter Signup
+Brands Carousel
+Loyalty Program / Rewards Section
+Customer Support / Help Section
+Social Media Feed
+Popular Search Terms / Popular Categories

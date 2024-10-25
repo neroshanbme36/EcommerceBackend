@@ -1,6 +1,8 @@
+using Application.Dtos.Banner;
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Dtos.Country;
 using Application.Dtos.Department;
+using Application.Dtos.Product;
 using Application.Dtos.Store;
 using Application.Profiles.Resolvers;
 using AutoMapper;
@@ -28,7 +30,14 @@ namespace Application.Profiles
       #endregion Country
       #region Department
       CreateMap<Department, DepartmentDto>();
+      CreateMap<Department, DepartmentProductMinifyDto>();
       #endregion Department
+      #region PRODUCT
+      CreateMap<Product, ProductMinifyDto>();
+      #endregion PRODUCT
+      #region MEDIA FILE
+      CreateMap<MediaFile, HeroBannerDto>();
+      #endregion MEDIA FILE
       #region EPOS
       #region POSTED TRANSACTION
       CreateMap<PostedTransactionHeader, OrderHeaderDto>();

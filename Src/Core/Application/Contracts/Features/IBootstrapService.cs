@@ -4,6 +4,6 @@ namespace Application.Contracts.Features
 {
     public interface IBootstrapService
     {
-        Task<BootstrapResponseDto> GetBootstrapDatas(string deviceId, string userEmail, BootstrapRequestDto bootstrapRequestDto);
+        Task<PrimeBaseResponseDto> GetPrimeBase(string deviceId, string userEmail, PrimeBaseRequestDto request);
     }
 }

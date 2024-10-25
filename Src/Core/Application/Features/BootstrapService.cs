@@ -29,25 +29,25 @@ namespace Application.Features
             _eposApiKey = "Epos";
         }
 
-        public async Task<BootstrapResponseDto> GetBootstrapDatas(string deviceId, string userEmail, BootstrapRequestDto bootstrapRequestDto)
+        public async Task<PrimeBaseResponseDto> GetPrimeBase(string deviceId, string userEmail, PrimeBaseRequestDto request)
         {
-            BootstrapResponseDto bootstrapResponseDto = new BootstrapResponseDto();
-            bootstrapResponseDto.Store = await _storeService.GetStore();
+            PrimeBaseResponseDto response = new PrimeBaseResponseDto();
+            response.Store = await _storeService.GetStore();
 
             if (!string.IsNullOrWhiteSpace(userEmail))
-                bootstrapResponseDto.User = await _authService.GetUserByEmail(userEmail);
+                response.User = await _authService.GetUserByEmail(userEmail);
 
             if (!string.IsNullOrWhiteSpace(deviceId))
             {
-                bootstrapResponseDto.Configuration = await _configurationService.GetConfigAttributeValue(deviceId);
+                response.Configuration = await _configurationService.GetConfigAttributeValue(deviceId);
 
-                if (!string.IsNullOrWhiteSpace(bootstrapRequestDto.CartId))
-                    bootstrapResponseDto.Order = await GetOrderFromEposApi(deviceId, bootstrapRequestDto.CartId);
+                if (!string.IsNullOrWhiteSpace(request.CartId))
+                    response.Order = await GetOrderFromEposApi(deviceId, request.CartId);
             }
 
-            bootstrapResponseDto.Departments = await _departmentService.GetDepartments();
+            response.Departments = await _departmentService.GetDepartments();
 
-            return bootstrapResponseDto;
+            return response;
         }
 
         private async Task<OrderDto?> GetOrderFromEposApi(string deviceId, string repairId)

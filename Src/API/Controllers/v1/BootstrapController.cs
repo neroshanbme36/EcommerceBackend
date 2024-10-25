@@ -22,17 +22,17 @@ namespace API.Controllers.v1
         }
         
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("PrimeBase")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BootstrapResponseDto>> GetBootstrapDatas(BootstrapRequestDto request)
+        public async Task<ActionResult<PrimeBaseResponseDto>> GetPrimeBase(PrimeBaseRequestDto request)
         {
             string? deviceId = HttpContext.Request.Headers[RequestHeaderCodes.DEVICE_ID];
             if (string.IsNullOrWhiteSpace(deviceId)) deviceId = string.Empty;
 
             string userEmail = HttpContext.User.RetrieveEmailFromPrincipal();
             
-            return await _bootstrapService.GetBootstrapDatas(deviceId, userEmail, request);
+            return await _bootstrapService.GetPrimeBase(deviceId, userEmail, request);
         }
     }
 }
