@@ -58,6 +58,7 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new TagConfigurations());
       modelBuilder.ApplyConfiguration(new VatConfigurations());
       modelBuilder.ApplyConfiguration(new VendorConfigurations());
+      modelBuilder.ApplyConfiguration(new BrandConfigurations());
     }
 
     public DbSet<Store> Stores { get; set; }
@@ -66,5 +67,6 @@ namespace Persistence
     public DbSet<ProductDepartment> ProductDepartments {get; set;}
     public DbSet<Configuration> Configurations {get; set;}
     public DbSet<MediaFile> MediaFiles {get; set;}
+    public DbSet<Brand> Brands {get; set;}
   }
 }

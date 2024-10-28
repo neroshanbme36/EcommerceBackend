@@ -15,5 +15,6 @@ namespace Application.Contracts.Persistence
     IProductDepartmentRepository ProductDepartmentRepository {get;}
     IAttributeRepository AttributeRepository {get;}
     IAttributeValueRepository AttributeValueRepository {get;}
+    IBrandRepository BrandRepository {get;}
   }
 }

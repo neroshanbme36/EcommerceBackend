@@ -38,17 +38,23 @@ namespace Application.Features
                 attributeDtos.Add(categoryAttributeDto);
             }
 
-            AttributeDto brandAttributeDto = new AttributeDto
+            IReadOnlyList<Brand> brands = await _uow.BrandRepository.GetBrands();
+            if (brands.Count > 0)
             {
-                Name = "Brand",
-                PluralName = "Brands",
-                FilterType = "Include",
-                Style = "MultiCheckbox",
-                Priority = 1 + attributeDtos.Count,
-                IsSearchBar = true,
-                IsSearchable = true,
-                // AttributeValues = departmentAttributeValues
-            };
+                IReadOnlyList<AttributeValueDto> brandAttributeValues = brands.Select(c => new AttributeValueDto() { Value = c.Name }).ToList();
+                AttributeDto brandAttributeDto = new AttributeDto
+                {
+                    Name = "Brand",
+                    PluralName = "Brands",
+                    FilterType = "Include",
+                    Style = "MultiCheckbox",
+                    Priority = 1 + attributeDtos.Count,
+                    IsSearchBar = true,
+                    IsSearchable = true,
+                    AttributeValues = brandAttributeValues
+                };
+                attributeDtos.Add(brandAttributeDto);
+            }
 
             AttributeDto priceAttributeDto = new AttributeDto
             {

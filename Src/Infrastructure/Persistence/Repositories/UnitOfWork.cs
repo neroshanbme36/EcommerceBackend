@@ -1,4 +1,5 @@
 using Application.Contracts.Persistence;
+using Domain.Entities;
 using Persistence.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Persistence.Repositories
     private IProductDepartmentRepository? _productDepartmentRepository;
     private IAttributeRepository? _attributeRepository;
     private IAttributeValueRepository? _attributeValueRepository;
+    private IBrandRepository? _brandRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -61,5 +63,8 @@ namespace Persistence.Repositories
 
     public IAttributeValueRepository AttributeValueRepository =>
       _attributeValueRepository ??= new AttributeValueRepository(_dbContext);
+
+    public IBrandRepository BrandRepository =>
+      _brandRepository ??= new BrandRepository(_dbContext);
   }
 }
