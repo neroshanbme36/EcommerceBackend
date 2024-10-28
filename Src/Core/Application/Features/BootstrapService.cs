@@ -16,11 +16,13 @@ namespace Application.Features
         private readonly IPostedTransactionApiService _postedTransactionApiService;
         private readonly IBannerService _bannerService;
         private readonly IProductService _productService;
+        private readonly IAttributeService _attributeService;
         private readonly string _eposApiKey;
 
         public BootstrapService(IStoreService storeService, IConfigurationService configurationService,
         IDepartmentService departmentService, IAuthService authService, IEposTransactionApiService eposTransApiService,
-        IPostedTransactionApiService postedTransactionApiService, IBannerService bannerService, IProductService productService)
+        IPostedTransactionApiService postedTransactionApiService, IBannerService bannerService, IProductService productService,
+        IAttributeService attributeService)
         {
             _storeService = storeService;
             _configurationService = configurationService;
@@ -30,6 +32,7 @@ namespace Application.Features
             _postedTransactionApiService = postedTransactionApiService;
             _bannerService = bannerService;
             _productService = productService;
+            _attributeService = attributeService;
             _eposApiKey = "Epos";
         }
 
@@ -67,6 +70,13 @@ namespace Application.Features
             response.HeroBanners = await _bannerService.GetHeroBanners();
             response.DepartmentProducts = await _productService.GetHomepageDepartmentProducts();
             response.ProductHightlights = await _productService.GetProductHighlights();
+            return response;
+        }
+
+        public async Task<BrowseCategoryPageResourceDto> GetBrowseCategoryPageResource()
+        {
+            BrowseCategoryPageResourceDto response = new BrowseCategoryPageResourceDto();
+            response.AttributeValues = await _attributeService.GetAttributeValues();
             return response;
         }
     }

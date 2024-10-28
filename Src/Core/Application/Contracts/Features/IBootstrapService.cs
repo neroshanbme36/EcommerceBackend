@@ -6,5 +6,6 @@ namespace Application.Contracts.Features
     {
         Task<PrimeBaseResponseDto> GetPrimeBase(string deviceId, string userEmail, PrimeBaseRequestDto request);
         Task<HomePageResourceDto> GetHomePageResource();
+        Task<BrowseCategoryPageResourceDto> GetBrowseCategoryPageResource();
     }
 }

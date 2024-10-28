@@ -13,5 +13,7 @@ namespace Application.Contracts.Persistence
     IMediaFileRepository MediaFileRepository {get;}
     IProductRepository ProductRepository {get;}
     IProductDepartmentRepository ProductDepartmentRepository {get;}
+    IAttributeRepository AttributeRepository {get;}
+    IAttributeValueRepository AttributeValueRepository {get;}
   }
 }

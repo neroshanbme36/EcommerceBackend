@@ -1,3 +1,4 @@
+using Application.Dtos.Attribute;
 using Application.Dtos.Banner;
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Dtos.Country;
@@ -39,6 +40,12 @@ namespace Application.Profiles
       #region MEDIA FILE
       CreateMap<MediaFile, HeroBannerDto>();
       #endregion MEDIA FILE
+      #region ATTRIBUTE
+      CreateMap<Domain.Entities.Attribute, AttributeDto>();
+      #endregion ATTRIBUTE
+      #region ATTRIBUTE VALUE
+      CreateMap<AttributeValue, AttributeValueDto>();
+      #endregion ATTRIBUTE VALUE
       #region EPOS
       #region POSTED TRANSACTION
       CreateMap<PostedTransactionHeader, OrderHeaderDto>();

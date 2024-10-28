@@ -43,5 +43,14 @@ namespace API.Controllers.v1
         {   
             return await _bootstrapService.GetHomePageResource();
         }
+
+        [AllowAnonymous]
+        [HttpGet("BrowseCategoryPageResource")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<BrowseCategoryPageResourceDto>> GetBrowseCategoryPageResourceDto()
+        {   
+            return await _bootstrapService.GetBrowseCategoryPageResource();
+        }
     }
 }
