@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Api.Controllers.Common;
 using Api.Errors;
 using Api.Extensions;
-using API.Middlewares.Builders;
+using Api.Middlewares.Builders;
 using Application.Contracts.Identity;
 using Application.Dtos.Identity;
 using Application.Models.Identity;
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers.v1
 {
     [ApiVersion("1.0")]
-    [MiddlewareFilter(typeof(StoreIdentityAuthMidBuilder))]
+    [MiddlewareFilter(typeof(StoreEcommerceAuthMidBuilder))]
     public class AccountController : BaseApiController
     {
         private readonly IAuthService _authenticationService;

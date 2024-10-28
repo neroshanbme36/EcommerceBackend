@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Config;
 
 namespace Persistence
 {
@@ -36,7 +37,27 @@ namespace Persistence
       // modelBuilder.ApplyConfigurationsFromAssembly(typeof(BackofficeDbContext).Assembly);
 
       base.OnModelCreating(modelBuilder);
-      //modelBuilder.ApplyConfiguration(new StoreConfigurations());
+      modelBuilder.ApplyConfiguration(new AttributeConfigurations());
+      modelBuilder.ApplyConfiguration(new AttributeValueConfigurations());
+      modelBuilder.ApplyConfiguration(new BarcodeMaskConfigurations());
+      modelBuilder.ApplyConfiguration(new ConfigurationConfiguration());
+      modelBuilder.ApplyConfiguration(new CountryConfigurations());
+      modelBuilder.ApplyConfiguration(new CrossSellProductConfigurations());
+      modelBuilder.ApplyConfiguration(new DepartmentConfigurations());
+      modelBuilder.ApplyConfiguration(new MediaFileConfigurations());
+      modelBuilder.ApplyConfiguration(new ProductAttributeValueConfigurations());
+      modelBuilder.ApplyConfiguration(new ProductBarcodeConfiguration());
+      modelBuilder.ApplyConfiguration(new ProductConfiguration());
+      modelBuilder.ApplyConfiguration(new ProductDepartmentConfigurations());
+      modelBuilder.ApplyConfiguration(new ProductGroupConfiguration());
+      modelBuilder.ApplyConfiguration(new ProductSubGroupConfiguration());
+      modelBuilder.ApplyConfiguration(new ProductTagConfigurations());
+      modelBuilder.ApplyConfiguration(new ProductVendorConfigurations());
+      modelBuilder.ApplyConfiguration(new RelatedProductConfigurations());
+      modelBuilder.ApplyConfiguration(new StoreConfigurations());
+      modelBuilder.ApplyConfiguration(new TagConfigurations());
+      modelBuilder.ApplyConfiguration(new VatConfigurations());
+      modelBuilder.ApplyConfiguration(new VendorConfigurations());
     }
 
     public DbSet<Store> Stores { get; set; }
