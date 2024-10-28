@@ -86,6 +86,23 @@ namespace Application.Features
             };
             attributeDtos.Add(ratingAttributeDto);
 
+            AttributeDto availabiltyAttributeDto = new AttributeDto
+            {
+                Name = "Availability",
+                PluralName = "Availability",
+                FilterType = "Include",
+                Style = "Checkbox",
+                Priority = 1 + attributeDtos.Count,
+                IsSearchable = true,
+                AttributeValues = new List<AttributeValueDto>
+                {
+                    new AttributeValueDto {Value = "All", IsDefault = true},
+                    new AttributeValueDto {Value = "In Stock"},
+                    new AttributeValueDto {Value = "Out Of Stock"}
+                }
+            };
+            attributeDtos.Add(availabiltyAttributeDto);
+
             return attributeDtos;
         }
     }
