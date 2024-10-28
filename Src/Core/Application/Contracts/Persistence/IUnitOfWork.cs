@@ -10,5 +10,8 @@ namespace Application.Contracts.Persistence
     IStoreRepository StoreRepository { get; }
     IDepartmentRepository DepartmentRepository {get;}
     IConfigurationRepository ConfigurationRepository {get;}
+    IMediaFileRepository MediaFileRepository {get;}
+    IProductRepository ProductRepository {get;}
+    IProductDepartmentRepository ProductDepartmentRepository {get;}
   }
 }

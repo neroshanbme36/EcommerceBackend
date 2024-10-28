@@ -19,8 +19,34 @@ namespace Application.Features
 
         public async Task<IReadOnlyList<DepartmentDto>> GetDepartments()
         {
-            IReadOnlyList<Department> departments = await _unitOfWork.DepartmentRepository.GetAll();
-            return _mapper.Map<IReadOnlyList<DepartmentDto>>(departments);
+            IReadOnlyList<Department> departments = await _unitOfWork.DepartmentRepository.GetDepartments();
+            return await ConvertToDepartmentDtos(departments);
+        }
+
+        public async Task<IReadOnlyList<DepartmentDto>> GetHomePageDepartments()
+        {
+            IReadOnlyList<Department> departments = await _unitOfWork.DepartmentRepository.GetHomePageDepartments();
+            return await ConvertToDepartmentDtos(departments);
+        }
+
+        private async Task<IReadOnlyList<DepartmentDto>> ConvertToDepartmentDtos(IReadOnlyList<Department> departments)
+        {
+            IReadOnlyList<DepartmentDto> departmentDtos = _mapper.Map<IReadOnlyList<DepartmentDto>>(departments);
+            if (departmentDtos.Count > 0)
+            {
+                IReadOnlyList<string> departmentIds = departmentDtos.Select(c => c.Id).ToList();
+                IReadOnlyList<string> mediaFileTypes = new List<string>{"Image"};
+                IReadOnlyList<MediaFile> mediaFiles = await _unitOfWork.MediaFileRepository.GetMediaFilesByEntityTypeEntityIdsType("Departments", mediaFileTypes, departmentIds);
+                if (mediaFiles.Count > 0)
+                {
+                    foreach (DepartmentDto dept in departmentDtos)
+                    {
+                        MediaFile? mediaFile = mediaFiles.FirstOrDefault(c => c.EntityId == dept.Id);
+                        if (mediaFile != null) dept.ImageUrl = mediaFile.Url;
+                    }
+                }
+            }
+            return departmentDtos;
         }
     }
 }

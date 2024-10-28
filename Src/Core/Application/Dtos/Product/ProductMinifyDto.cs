@@ -14,6 +14,7 @@ namespace Application.Dtos.Product
         public string Type { get; set; } = string.Empty;
         public decimal OriginalPrice { get; set; }
         public decimal DiscPercentage { get; set; }
-        public string? ThumbnailUrl {get; set;}
+        public string? ThumbnailUrl { get; set; }
+        public float Rating {get; set;}
     }
 }

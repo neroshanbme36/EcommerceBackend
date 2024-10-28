@@ -41,6 +41,9 @@ namespace Persistence
 
     public DbSet<Store> Stores { get; set; }
     public DbSet<Department> Departments {get; set;}
+    public DbSet<Product> Products {get; set;}
+    public DbSet<ProductDepartment> ProductDepartments {get; set;}
     public DbSet<Configuration> Configurations {get; set;}
+    public DbSet<MediaFile> MediaFiles {get; set;}
   }
 }

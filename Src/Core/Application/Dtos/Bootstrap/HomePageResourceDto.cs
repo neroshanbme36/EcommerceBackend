@@ -8,14 +8,6 @@ namespace Application.Dtos.Bootstrap
     {
         public IReadOnlyList<HeroBannerDto> HeroBanners {get; set;} = new List<HeroBannerDto>();
         public IReadOnlyList<DepartmentProductMinifyDto> DepartmentProducts {get; set;} = new List<DepartmentProductMinifyDto>();
-        public IReadOnlyList<ProductMinifyDto> FeaturedProducts {get; set;} = new List<ProductMinifyDto>();
-        //Trending Now
-        public IReadOnlyList<ProductMinifyDto> TrendingProducts {get; set;} = new List<ProductMinifyDto>();
-        //Best Sellers
-        public IReadOnlyList<ProductMinifyDto> TopSellingProducts {get; set;} = new List<ProductMinifyDto>();
-        //Deals of the Day / Flash Sales
-        public IReadOnlyList<ProductMinifyDto> TodayDealProducts {get; set;} = new List<ProductMinifyDto>();
-        //New Arrivals
-        public IReadOnlyList<ProductMinifyDto> RecentlyAddedProducts {get; set;} = new List<ProductMinifyDto>();
+        public ProductHightlightsDto ProductHightlights {get; set;} = new ProductHightlightsDto();
     }
 }

@@ -24,6 +24,8 @@ namespace Application
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IConfigurationService, ConfigurationService>();
             services.AddScoped<IBootstrapService, BootstrapService>();
+            services.AddScoped<IBannerService, BannerService>();
+            services.AddScoped<IProductService, ProductService>();
             return services;
         }
     }

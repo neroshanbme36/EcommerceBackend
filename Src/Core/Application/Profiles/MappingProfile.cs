@@ -30,10 +30,11 @@ namespace Application.Profiles
       #endregion Country
       #region Department
       CreateMap<Department, DepartmentDto>();
-      CreateMap<Department, DepartmentProductMinifyDto>();
+      CreateMap<DepartmentDto, DepartmentProductMinifyDto>();
       #endregion Department
       #region PRODUCT
-      CreateMap<Product, ProductMinifyDto>();
+      CreateMap<Product, Dtos.Product.ProductDto>();
+      CreateMap<Dtos.Product.ProductDto, ProductMinifyDto>();
       #endregion PRODUCT
       #region MEDIA FILE
       CreateMap<MediaFile, HeroBannerDto>();

@@ -14,11 +14,13 @@ namespace Application.Features
         private readonly IAuthService _authService;
         private readonly IEposTransactionApiService _eposTransApiService;
         private readonly IPostedTransactionApiService _postedTransactionApiService;
+        private readonly IBannerService _bannerService;
+        private readonly IProductService _productService;
         private readonly string _eposApiKey;
 
         public BootstrapService(IStoreService storeService, IConfigurationService configurationService,
         IDepartmentService departmentService, IAuthService authService, IEposTransactionApiService eposTransApiService,
-        IPostedTransactionApiService postedTransactionApiService)
+        IPostedTransactionApiService postedTransactionApiService, IBannerService bannerService, IProductService productService)
         {
             _storeService = storeService;
             _configurationService = configurationService;
@@ -26,6 +28,8 @@ namespace Application.Features
             _authService = authService;
             _eposTransApiService = eposTransApiService;
             _postedTransactionApiService = postedTransactionApiService;
+            _bannerService = bannerService;
+            _productService = productService;
             _eposApiKey = "Epos";
         }
 
@@ -55,6 +59,15 @@ namespace Application.Features
             OrderDto? order = await _eposTransApiService.GetRepairTransaction(_eposApiKey, deviceId, repairId);
             if (order != null) return order;
             return await _postedTransactionApiService.GetRepairTransaction(_eposApiKey, deviceId, repairId);
+        }
+
+        public async Task<HomePageResourceDto> GetHomePageResource()
+        {
+            HomePageResourceDto response = new HomePageResourceDto();
+            response.HeroBanners = await _bannerService.GetHeroBanners();
+            response.DepartmentProducts = await _productService.GetHomepageDepartmentProducts();
+            response.ProductHightlights = await _productService.GetProductHighlights();
+            return response;
         }
     }
 }

@@ -34,5 +34,14 @@ namespace API.Controllers.v1
             
             return await _bootstrapService.GetPrimeBase(deviceId, userEmail, request);
         }
+
+        [AllowAnonymous]
+        [HttpGet("HomePageResource")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<HomePageResourceDto>> GetHomePageResource()
+        {   
+            return await _bootstrapService.GetHomePageResource();
+        }
     }
 }

@@ -11,6 +11,9 @@ namespace Persistence.Repositories
     private IStoreRepository? _storeRepository;
     private IDepartmentRepository? _departmentRepository;
     private IConfigurationRepository? _configurationRepository;
+    private IMediaFileRepository? _mediaFileRepository;
+    private IProductRepository? _productRepository;
+    private IProductDepartmentRepository? _productDepartmentRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -41,5 +44,14 @@ namespace Persistence.Repositories
 
     public IConfigurationRepository ConfigurationRepository =>
       _configurationRepository ??= new ConfigurationRepository(_dbContext);
+
+    public IMediaFileRepository MediaFileRepository =>
+      _mediaFileRepository ??= new MediaFileRepository(_dbContext);
+
+    public IProductRepository ProductRepository =>
+      _productRepository ??= new ProductRepository(_dbContext);
+
+    public IProductDepartmentRepository ProductDepartmentRepository =>
+      _productDepartmentRepository ??= new ProductDepartmentRepository(_dbContext);
   }
 }
