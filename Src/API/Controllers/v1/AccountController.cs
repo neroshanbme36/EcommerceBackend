@@ -97,7 +97,7 @@ namespace Api.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordDto request)
         {
-            await _authenticationService.ForgotPassword(Request.Scheme, Request.Host.ToString(), request);
+            await _authenticationService.ForgotPassword(request);
             return NoContent();
         }
 

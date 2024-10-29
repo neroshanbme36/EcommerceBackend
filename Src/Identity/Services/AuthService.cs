@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using Application.Contracts.Infrastructure;
 using Application.Models;
 using Application.Dtos.Email;
+using Application.Contracts.Persistence;
+using Domain.Entities;
 
 namespace Identity.Services
 {
@@ -28,18 +30,21 @@ namespace Identity.Services
     private readonly JwtSettings _jwtSettings;
     private readonly IPushNotificationSender _pushNotificationSender;
     private readonly IEmailSender _emailSender;
+    private readonly IUnitOfWork _mainUow;
 
     public AuthService(UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
         SignInManager<ApplicationUser> signInManager,
         IPushNotificationSender pushNotificationSender,
-        IEmailSender emailSender)
+        IEmailSender emailSender,
+        IUnitOfWork mainUow)
     {
       _userManager = userManager;
       _jwtSettings = jwtSettings.Value;
       _signInManager = signInManager;
       _pushNotificationSender = pushNotificationSender;
       _emailSender = emailSender;
+      _mainUow = mainUow;
     }
 
     public async Task<UserDto> GetUserByEmail(string email)
@@ -245,7 +250,7 @@ namespace Identity.Services
         throw new BadRequestException($"{GetIdentityErrorMessage(result.Errors)}");
     }
 
-    public async Task ForgotPassword(string scheme, string host, ForgotPasswordDto request)
+    public async Task ForgotPassword(ForgotPasswordDto request)
     {
       var user = await _userManager.FindByEmailAsync(request.Email);
       if (user == null) return;
@@ -254,11 +259,15 @@ namespace Identity.Services
       if (!isEmailConfirmed) return;
 
       string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-      string resetUrl = $"{scheme}://{host}/reset-password?token={Uri.EscapeDataString(token)}&email={request.Email}";
+
+      Store store = await _mainUow.StoreRepository.GetTopStore();
+      if (store == null) return;
+
+      string resetUrl = $"https://{store.EcommerceUrl}/reset-password?token={Uri.EscapeDataString(token)}&email={request.Email}";
 
       EmailDto emailDto = new EmailDto
       {
-        SenderEmail = string.Empty,
+        SenderEmail = store.Email,
         ReceiverEmail = request.Email,
         Subject = "Password Reset",
         Body = $"Please reset your password by clicking <a href='{resetUrl}'>here</a>",
