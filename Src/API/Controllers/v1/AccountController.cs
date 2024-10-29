@@ -89,5 +89,26 @@ namespace Api.Controllers.v1
             string email = HttpContext.User.RetrieveEmailFromPrincipal();
             return await _authenticationService.GetUserByEmail(email);
         }
+
+        
+        [HttpPost("forgot-password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordDto request)
+        {
+            await _authenticationService.ForgotPassword(Request.Scheme, Request.Host.ToString(), request);
+            return NoContent();
+        }
+
+        [HttpPost("reset-password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> ResetPasswordEmail(ResetPasswordEmailDto request)
+        {
+            await _authenticationService.ResetPasswordEmail(request);
+            return NoContent();
+        }
     }
 }

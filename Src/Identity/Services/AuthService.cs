@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Contracts.Infrastructure;
 using Application.Models;
+using Application.Dtos.Email;
 
 namespace Identity.Services
 {
@@ -26,16 +27,19 @@ namespace Identity.Services
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly JwtSettings _jwtSettings;
     private readonly IPushNotificationSender _pushNotificationSender;
+    private readonly IEmailSender _emailSender;
 
     public AuthService(UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
         SignInManager<ApplicationUser> signInManager,
-        IPushNotificationSender pushNotificationSender)
+        IPushNotificationSender pushNotificationSender,
+        IEmailSender emailSender)
     {
       _userManager = userManager;
       _jwtSettings = jwtSettings.Value;
       _signInManager = signInManager;
       _pushNotificationSender = pushNotificationSender;
+      _emailSender = emailSender;
     }
 
     public async Task<UserDto> GetUserByEmail(string email)
@@ -109,7 +113,7 @@ namespace Identity.Services
     public async Task<IReadOnlyList<UserDto>> GetUsersByRoleNames(IReadOnlyList<string> roleNames)
     {
       List<UserDto> userDtos = new List<UserDto>();
-      foreach(string roleName in roleNames)
+      foreach (string roleName in roleNames)
       {
         userDtos.AddRange(await GetUsersByRoleName(roleName));
       }
@@ -147,10 +151,10 @@ namespace Identity.Services
     {
       var user = await _userManager.FindByEmailAsync(email);
       if (user == null) return;
-      
+
       Result pushNotificationResult = await _pushNotificationSender.DeleteFcmUser(user.Id);
       if (!pushNotificationResult.Success)
-          throw new InternalServerErrorException("Logout of push notification failed please try again");
+        throw new InternalServerErrorException("Logout of push notification failed please try again");
     }
 
     public async Task<UserDto> Register(RegistrationDto request)
@@ -188,7 +192,7 @@ namespace Identity.Services
       ApplicationUser existingEmail = await _userManager.FindByEmailAsync(userRepo.Email);
       if (existingEmail != null)
       {
-        if (!string.Equals(existingEmail.Id, userRepo.Id))  throw new BadRequestException($"Email '{userRepo.Email}' already exists.");
+        if (!string.Equals(existingEmail.Id, userRepo.Id)) throw new BadRequestException($"Email '{userRepo.Email}' already exists.");
       }
 
       userRepo.Email = request.Email;
@@ -237,6 +241,39 @@ namespace Identity.Services
 
       var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
 
+      if (!result.Succeeded)
+        throw new BadRequestException($"{GetIdentityErrorMessage(result.Errors)}");
+    }
+
+    public async Task ForgotPassword(string scheme, string host, ForgotPasswordDto request)
+    {
+      var user = await _userManager.FindByEmailAsync(request.Email);
+      if (user == null) return;
+
+      bool isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+      if (!isEmailConfirmed) return;
+
+      string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+      string resetUrl = $"{scheme}://{host}/reset-password?token={Uri.EscapeDataString(token)}&email={request.Email}";
+
+      EmailDto emailDto = new EmailDto
+      {
+        SenderEmail = string.Empty,
+        ReceiverEmail = request.Email,
+        Subject = "Password Reset",
+        Body = $"Please reset your password by clicking <a href='{resetUrl}'>here</a>",
+        IsBodyHtml = true
+      };
+      IReadOnlyList<EmailDto> emailDtos = new List<EmailDto> { emailDto };
+      await _emailSender.SendEmail(emailDtos);
+    }
+
+    public async Task ResetPasswordEmail(ResetPasswordEmailDto request)
+    {
+      var user = await _userManager.FindByEmailAsync(request.Email);
+      if (user == null)  throw new BadRequestException("Reset Password failed");
+
+      var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
       if (!result.Succeeded)
         throw new BadRequestException($"{GetIdentityErrorMessage(result.Errors)}");
     }

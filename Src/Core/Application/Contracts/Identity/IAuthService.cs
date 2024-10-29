@@ -17,5 +17,7 @@ namespace Application.Contracts.Identity
         Task<IReadOnlyList<UserDto>> GetUsersByRoleNames(IReadOnlyList<string> roleNames);
         Task<UserDto> GetUserById(string id);
         Task<UserDto> EditIdentityUser(EditIdentityUserDto request);
+        Task ForgotPassword(string scheme, string host, ForgotPasswordDto request);
+        Task ResetPasswordEmail(ResetPasswordEmailDto model);
     }
 }
