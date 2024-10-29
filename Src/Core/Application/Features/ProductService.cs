@@ -2,6 +2,8 @@ using Application.Contracts.Features;
 using Application.Contracts.Persistence;
 using Application.Dtos.Department;
 using Application.Dtos.Product;
+using Application.Models;
+using Application.QueryParams;
 using AutoMapper;
 using Domain.Entities;
 
@@ -69,6 +71,14 @@ namespace Application.Features
                 }
             }
             return departmentProducts;
+        }
+
+        public async Task<Pagination<ProductMinifyDto>> GetProducts(ProductParams productParams)
+        {
+            Pagination<Product> paginationProds = await _unitOfWork.ProductRepository.GetProducts(productParams);
+            IReadOnlyList<ProductDto> productDtos = await ConvertToProductDto(paginationProds.Data);
+            IReadOnlyList<ProductMinifyDto> productMinifyDtos = _mapper.Map<IReadOnlyList<ProductMinifyDto>>(productDtos);
+            return new Pagination<ProductMinifyDto>(productMinifyDtos, paginationProds.TotalCount, paginationProds.PageNumber, paginationProds.PageSize);
         }
 
         private async Task<IReadOnlyList<ProductDto>> ConvertToProductDto(IReadOnlyList<Product> products)

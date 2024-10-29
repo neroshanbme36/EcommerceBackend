@@ -1,6 +1,8 @@
 
 using Application.Dtos.Department;
 using Application.Dtos.Product;
+using Application.Models;
+using Application.QueryParams;
 
 namespace Application.Contracts.Features
 {
@@ -8,5 +10,6 @@ namespace Application.Contracts.Features
     {
         Task<ProductHightlightsDto> GetProductHighlights();
         Task<IReadOnlyList<DepartmentProductMinifyDto>> GetHomepageDepartmentProducts();
+        Task<Pagination<ProductMinifyDto>> GetProducts(ProductParams productParams);
     }
 }
