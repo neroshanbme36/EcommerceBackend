@@ -5,6 +5,7 @@ using Application.Dtos.Country;
 using Application.Dtos.Department;
 using Application.Dtos.Product;
 using Application.Dtos.Store;
+using Application.Dtos.Tag;
 using Application.Profiles.Resolvers;
 using AutoMapper;
 using Domain.Entities;
@@ -36,7 +37,11 @@ namespace Application.Profiles
       #region PRODUCT
       CreateMap<Product, Dtos.Product.ProductDto>();
       CreateMap<Dtos.Product.ProductDto, ProductMinifyDto>();
+      CreateMap<Product, ProductDetailDto>();
       #endregion PRODUCT
+      #region TAG
+      CreateMap<Tag, TagDto>();
+      #endregion TAG
       #region MEDIA FILE
       CreateMap<MediaFile, HeroBannerDto>();
       #endregion MEDIA FILE

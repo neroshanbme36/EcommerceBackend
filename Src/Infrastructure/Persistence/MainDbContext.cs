@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Entities.CloudStore;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Config;
 
@@ -61,12 +62,31 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new BrandConfigurations());
     }
 
+    public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
+    public DbSet<AttributeValue> AttributeValues { get; set; }
+    public DbSet<BarcodeMask> BarcodeMasks { get; set; }
+    public DbSet<Brand> Brands { get; set; }
+    public DbSet<Configuration> Configurations { get; set; }
+    public DbSet<Country> Countries { get; set; }
+    public DbSet<CrossSellProduct> CrossSellProducts { get; set; }
+    public DbSet<Department> Departments { get; set; }
+    // public DbSet<EposTransactionHeader> EposTransactionHeaders { get; set; }
+    // public DbSet<EposTransactionLine> EposTransactionLines { get; set; }
+    public DbSet<MediaFile> MediaFiles { get; set; }
+    // public DbSet<PostedTransactionHeader> PostedTransactionHeaders { get; set; }
+    // public DbSet<PostedTransactionLine> PostedTransactionLines { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
+    public DbSet<ProductBarcode> ProductBarcodes { get; set; }
+    public DbSet<ProductDepartment> ProductDepartments { get; set; }
+    public DbSet<ProductGroup> ProductGroups { get; set; }
+    public DbSet<ProductSubGroup> ProductSubGroups { get; set; }
+    public DbSet<ProductTag> ProductTags { get; set; }
+    public DbSet<ProductVendor> ProductVendors { get; set; }
+    public DbSet<RelatedProduct> RelatedProducts { get; set; }
     public DbSet<Store> Stores { get; set; }
-    public DbSet<Department> Departments {get; set;}
-    public DbSet<Product> Products {get; set;}
-    public DbSet<ProductDepartment> ProductDepartments {get; set;}
-    public DbSet<Configuration> Configurations {get; set;}
-    public DbSet<MediaFile> MediaFiles {get; set;}
-    public DbSet<Brand> Brands {get; set;}
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Vat> Vats { get; set; }
+    public DbSet<Vendor> Vendors { get; set; }
   }
 }

@@ -2,6 +2,8 @@ using Application.Contracts.Features;
 using Application.Contracts.Persistence;
 using Application.Dtos.Department;
 using Application.Dtos.Product;
+using Application.Dtos.Tag;
+using Application.Exceptions;
 using Application.Models;
 using Application.QueryParams;
 using AutoMapper;
@@ -79,6 +81,37 @@ namespace Application.Features
             IReadOnlyList<ProductDto> productDtos = await ConvertToProductDto(paginationProds.Data);
             IReadOnlyList<ProductMinifyDto> productMinifyDtos = _mapper.Map<IReadOnlyList<ProductMinifyDto>>(productDtos);
             return new Pagination<ProductMinifyDto>(productMinifyDtos, paginationProds.TotalCount, paginationProds.PageNumber, paginationProds.PageSize);
+        }
+
+        public async Task<ProductDetailDto> GetProductBySlug(string slug)
+        {
+            string description = slug.Replace("-", " ");
+
+            Product? product = await _unitOfWork.ProductRepository.GetProductDetailByDescription(description);
+            if (product == null) throw new NotFoundException("Product doesnt exist", slug);
+
+            ProductDetailDto productDetailDto = _mapper.Map<ProductDetailDto>(product);
+            if (product.ProductTags.Count > 0)
+            {
+                IReadOnlyList<Tag> tags = product.ProductTags.Select(c => c.Tag).ToList();
+                productDetailDto.Tags = _mapper.Map<IReadOnlyList<TagDto>>(tags);
+            }
+            await BindMediaFiles(productDetailDto);
+            return productDetailDto;
+        }
+
+        private async Task BindMediaFiles(ProductDetailDto productDetailDto)
+        {
+            IReadOnlyList<string> productItemNos = new List<string> { productDetailDto.ItemNo };
+            IReadOnlyList<string> mediaFileTypes = new List<string> { "Thumbnail", "Image" };
+            IReadOnlyList<MediaFile> mediaFiles = await _unitOfWork.MediaFileRepository.GetMediaFilesByEntityTypeEntityIdsType("Products", mediaFileTypes, productItemNos);
+            foreach (MediaFile mediaFile in mediaFiles)
+            {
+                if (mediaFile.Type.Equals("Image"))
+                    productDetailDto.ImageUrls.Add(mediaFile.Url);
+                else
+                    productDetailDto.ThumbnailUrl = mediaFile.Url;
+            }
         }
 
         private async Task<IReadOnlyList<ProductDto>> ConvertToProductDto(IReadOnlyList<Product> products)

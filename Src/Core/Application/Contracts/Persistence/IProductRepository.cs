@@ -8,6 +8,7 @@ namespace Application.Contracts.Persistence
     {
         Task<IReadOnlyList<Product>> GetProductHighlights();
         Task<IReadOnlyList<Product>> GetProductsByItemNos(IReadOnlyList<string> itemNos);
+        Task<Product?> GetProductDetailByDescription(string description);
         Task<Pagination<Product>> GetProducts(ProductParams productParams);
     }
 }

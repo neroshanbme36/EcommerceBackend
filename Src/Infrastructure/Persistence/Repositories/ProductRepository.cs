@@ -34,6 +34,13 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Product?> GetProductDetailByDescription(string description)
+        {
+            return await _dbContext.Products
+                .Include(c => c.ProductTags).ThenInclude(c => c.Tag)
+                .FirstOrDefaultAsync(c => c.ShowInEcommerce && c.Description == description);
+        }
+
         public async Task<Pagination<Product>> GetProducts(ProductParams productParams)
         {
             IReadOnlyList<string> brands = string.IsNullOrWhiteSpace(productParams.Brand) ? new List<string>() : productParams.Brand.Split(',').ToList();

@@ -18,6 +18,7 @@ namespace Persistence.Repositories
     private IAttributeRepository? _attributeRepository;
     private IAttributeValueRepository? _attributeValueRepository;
     private IBrandRepository? _brandRepository;
+    private ITagRepository? _tagRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -66,5 +67,8 @@ namespace Persistence.Repositories
 
     public IBrandRepository BrandRepository =>
       _brandRepository ??= new BrandRepository(_dbContext);
+
+    public ITagRepository TagRepository =>
+      _tagRepository ??= new TagRepository(_dbContext);
   }
 }
