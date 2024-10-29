@@ -8,7 +8,8 @@ namespace Application.Dtos.Product
         public string? FullDescription {get; set;} // short description
         public string? LongDescription {get; set;}
         public string DepartmentId { get; set; } = string.Empty;
-        public IReadOnlyList<TagDto> Tags {get; set;} = new List<TagDto>();
         public List<string> ImageUrls {get; set;} = new List<string>();
+        public IReadOnlyList<TagDto> Tags {get; set;} = new List<TagDto>();
+        public IReadOnlyList<ProductMinifyDto> RelatedProducts {get; set;} = new List<ProductMinifyDto>();
     }
 }

@@ -41,6 +41,17 @@ namespace Persistence.Repositories
                 .FirstOrDefaultAsync(c => c.ShowInEcommerce && c.Description == description);
         }
 
+        public async Task<IReadOnlyList<Product>> GetRelatedProducts(string itemNo)
+        {
+            IQueryable<string> quRelatedProdsItemNos = _dbContext.RelatedProducts
+                .Where(c => c.ItemNo == itemNo).Select(c => c.RelatedProductItemNo);
+
+            return await _dbContext.Products
+                .Where(c => c.ShowInEcommerce 
+                && quRelatedProdsItemNos.Contains(c.ItemNo))
+                .ToListAsync();
+        }
+
         public async Task<Pagination<Product>> GetProducts(ProductParams productParams)
         {
             IReadOnlyList<string> brands = string.IsNullOrWhiteSpace(productParams.Brand) ? new List<string>() : productParams.Brand.Split(',').ToList();

@@ -91,13 +91,21 @@ namespace Application.Features
             if (product == null) throw new NotFoundException("Product doesnt exist", slug);
 
             ProductDetailDto productDetailDto = _mapper.Map<ProductDetailDto>(product);
+            await BindMediaFiles(productDetailDto);
             if (product.ProductTags.Count > 0)
             {
                 IReadOnlyList<Tag> tags = product.ProductTags.Select(c => c.Tag).ToList();
                 productDetailDto.Tags = _mapper.Map<IReadOnlyList<TagDto>>(tags);
             }
-            await BindMediaFiles(productDetailDto);
+            await BindRelatedProducts(productDetailDto);
             return productDetailDto;
+        }
+
+        private async Task BindRelatedProducts(ProductDetailDto productDetailDto)
+        {
+            IReadOnlyList<Product> relatedProducts = await _unitOfWork.ProductRepository.GetRelatedProducts(productDetailDto.ItemNo);
+            IReadOnlyList<ProductDto> productDtos = await ConvertToProductDto(relatedProducts);
+            productDetailDto.RelatedProducts = _mapper.Map<IReadOnlyList<ProductMinifyDto>>(productDtos);
         }
 
         private async Task BindMediaFiles(ProductDetailDto productDetailDto)
