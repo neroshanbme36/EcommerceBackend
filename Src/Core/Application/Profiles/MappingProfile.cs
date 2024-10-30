@@ -7,6 +7,7 @@ using Application.Dtos.Department;
 using Application.Dtos.Product;
 using Application.Dtos.Store;
 using Application.Dtos.Tag;
+using Application.Dtos.WishlistProduct;
 using Application.Profiles.Resolvers;
 using AutoMapper;
 using Domain.Entities;
@@ -44,6 +45,10 @@ namespace Application.Profiles
       CreateMap<Dtos.Product.ProductDto, ProductMinifyDto>();
       CreateMap<Product, ProductDetailDto>();
       #endregion PRODUCT
+      #region WISHLIST PRODUCT
+      CreateMap<AddWistlistProductDto, WishlistProduct>();
+      CreateMap<WishlistProduct, WishlistProductDto>();
+      #endregion WISHLIST PRODUCT
       #region TAG
       CreateMap<Tag, TagDto>();
       #endregion TAG

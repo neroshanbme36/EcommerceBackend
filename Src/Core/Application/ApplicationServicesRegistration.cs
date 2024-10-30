@@ -29,6 +29,7 @@ namespace Application
             services.AddScoped<IAttributeService, AttributeService>();
             services.AddScoped<ICustomerAddressService, CustomerAddressService>();
             services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<IWishlistProductService, WishlistProductService>();
             return services;
         }
     }

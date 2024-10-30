@@ -1,5 +1,4 @@
 using Application.Contracts.Persistence;
-using Domain.Entities;
 using Persistence.Extensions;
 using System;
 using System.Threading.Tasks;
@@ -21,6 +20,7 @@ namespace Persistence.Repositories
     private ITagRepository? _tagRepository;
     private ICustomerAddressRepository? _customerAddressRepository;
     private ICountryRepository? _countryRepository;
+    private IWishlistProductRepository? _wishlistProductRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -78,5 +78,8 @@ namespace Persistence.Repositories
 
     public ICountryRepository CountryRepository =>
       _countryRepository ??= new CountryRepository(_dbContext);
+
+    public IWishlistProductRepository WishlistProductRepository =>
+      _wishlistProductRepository ??= new WishlistProductRepository(_dbContext);
   }
 }

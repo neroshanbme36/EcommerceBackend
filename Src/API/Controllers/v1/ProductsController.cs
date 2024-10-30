@@ -1,5 +1,6 @@
 using Api.Controllers.Common;
 using Api.Errors;
+using Api.Extensions;
 using Api.Middlewares.Builders;
 using Application.Contracts.Features;
 using Application.Dtos.Product;
@@ -38,6 +39,16 @@ namespace API.Controllers.v1
         public async Task<ActionResult<ProductDetailDto>> GetProductBySlug(string slug)
         {
             return await _productService.GetProductBySlug(slug);
+        }
+
+        [HttpGet("user-wishlist")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IReadOnlyList<ProductMinifyDto>>> GetUserWishlistProducts()
+        {
+            string userId = HttpContext.User.RetrieveUserIdFromPrincipal();
+            return (await _productService.GetUserWishlistProducts(userId)).ToList();
         }
     }
 }

@@ -41,6 +41,21 @@ namespace Persistence.Repositories
                 .FirstOrDefaultAsync(c => c.ShowInEcommerce && c.Description == description);
         }
 
+        public async Task<IReadOnlyList<Product>> GetWishlistProductsByUserId(string userId)
+        {
+            return await _dbContext.WishlistProducts
+                .Include(c => c.Product)
+                .Where(c => c.Product.ShowInEcommerce && c.UserId == userId)
+                .Select(c => c.Product)
+                .ToListAsync();
+        }
+
+        public async Task<bool> IsAnyByItemNo(string itemNo)
+        {
+            return await _dbContext.Products
+                .AnyAsync(c => c.ShowInEcommerce && c.ItemNo == itemNo);
+        }
+
         public async Task<IReadOnlyList<Product>> GetRelatedProducts(string itemNo)
         {
             IQueryable<string> quRelatedProdsItemNos = _dbContext.RelatedProducts

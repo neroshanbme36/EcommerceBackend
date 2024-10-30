@@ -101,6 +101,14 @@ namespace Application.Features
             return productDetailDto;
         }
 
+        public async Task<IReadOnlyList<ProductMinifyDto>> GetUserWishlistProducts(string userId)
+        {
+            IReadOnlyList<Product> products = await _unitOfWork.ProductRepository.GetWishlistProductsByUserId(userId);
+            IReadOnlyList<ProductDto> productDtos = await ConvertToProductDto(products);
+            IReadOnlyList<ProductMinifyDto> productMinifyDtos = _mapper.Map<IReadOnlyList<ProductMinifyDto>>(productDtos);
+            return productMinifyDtos;
+        }
+
         private async Task BindRelatedProducts(ProductDetailDto productDetailDto)
         {
             IReadOnlyList<Product> relatedProducts = await _unitOfWork.ProductRepository.GetRelatedProducts(productDetailDto.ItemNo);

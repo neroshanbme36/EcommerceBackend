@@ -10,6 +10,8 @@ namespace Application.Contracts.Persistence
         Task<IReadOnlyList<Product>> GetProductsByItemNos(IReadOnlyList<string> itemNos);
         Task<Product?> GetProductDetailByDescription(string description);
         Task<IReadOnlyList<Product>> GetRelatedProducts(string itemNo);
+        Task<bool> IsAnyByItemNo(string itemNo);
         Task<Pagination<Product>> GetProducts(ProductParams productParams);
+        Task<IReadOnlyList<Product>> GetWishlistProductsByUserId(string userId);
     }
 }

@@ -82,5 +82,6 @@ namespace Domain.Entities
         public IReadOnlyList<ProductAttributeValue> ProductAttributeValues {get; set;} = new List<ProductAttributeValue>();
         public IReadOnlyList<ProductDepartment> ProductDepartments {get; set;} = new List<ProductDepartment>();
         public IReadOnlyList<ProductTag> ProductTags {get; set;} = new List<ProductTag>();
+        public IReadOnlyList<WishlistProduct> WishlistProducts {get; set;} = new List<WishlistProduct>();
     }
 }

@@ -19,5 +19,6 @@ namespace Application.Contracts.Persistence
     ITagRepository TagRepository {get;}
     ICustomerAddressRepository CustomerAddressRepository {get;}
     ICountryRepository CountryRepository {get;}
+    IWishlistProductRepository WishlistProductRepository {get;}
   }
 }

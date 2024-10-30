@@ -60,6 +60,7 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new VendorConfigurations());
       modelBuilder.ApplyConfiguration(new BrandConfigurations());
       modelBuilder.ApplyConfiguration(new CustomerAddressConfigurations());
+      modelBuilder.ApplyConfiguration(new WishlistProductConfigurations());
     }
 
     public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
@@ -89,5 +90,6 @@ namespace Persistence
     public DbSet<Vat> Vats { get; set; }
     public DbSet<Vendor> Vendors { get; set; }
     public DbSet<CustomerAddress> CustomerAddresses {get; set;}
+    public DbSet<WishlistProduct> WishlistProducts {get; set;}
   }
 }

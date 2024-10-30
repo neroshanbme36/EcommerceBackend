@@ -12,5 +12,6 @@ namespace Application.Contracts.Features
         Task<IReadOnlyList<DepartmentProductMinifyDto>> GetHomepageDepartmentProducts();
         Task<Pagination<ProductMinifyDto>> GetProducts(ProductParams productParams);
         Task<ProductDetailDto> GetProductBySlug(string slug);
+        Task<IReadOnlyList<ProductMinifyDto>> GetUserWishlistProducts(string userId);
     }
 }
