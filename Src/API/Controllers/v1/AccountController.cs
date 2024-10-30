@@ -97,5 +97,16 @@ namespace Api.Controllers.v1
             await _authenticationService.ChangePassword(email, request);
             return NoContent();
         }
+
+        [AllowAnonymous]
+        [HttpPut("edit-user")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<UserDto>> EditIdentityUser(EditIdentityUserDto request)
+        {
+            return await _authenticationService.EditIdentityUser(request);
+        }
     }
 }

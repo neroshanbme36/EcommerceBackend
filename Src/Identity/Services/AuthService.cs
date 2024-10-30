@@ -200,18 +200,18 @@ namespace Identity.Services
         if (!string.Equals(existingEmail.Id, userRepo.Id)) throw new BadRequestException($"Email '{userRepo.Email}' already exists.");
       }
 
-      userRepo.Email = request.Email;
+      //userRepo.Email = request.Email;
       userRepo.FirstName = request.FirstName;
       userRepo.LastName = request.LastName;
-      userRepo.UserName = request.Email;
+      //userRepo.UserName = request.Email;
       userRepo.PhoneNumber = request.PhoneNumber;
 
       IdentityResult result = await _userManager.UpdateAsync(userRepo);
       if (!result.Succeeded) throw new BadRequestException($"{GetIdentityErrorMessage(result.Errors)}");
 
-      IList<string> roles = await _userManager.GetRolesAsync(userRepo);
-      await _userManager.RemoveFromRolesAsync(userRepo, roles);
-      await _userManager.AddToRoleAsync(userRepo, request.Role);
+      // IList<string> roles = await _userManager.GetRolesAsync(userRepo);
+      // await _userManager.RemoveFromRolesAsync(userRepo, roles);
+      // await _userManager.AddToRoleAsync(userRepo, request.Role);
 
       return await MapUserDto(userRepo);
     }
