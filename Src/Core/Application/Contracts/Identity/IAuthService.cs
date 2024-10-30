@@ -10,7 +10,7 @@ namespace Application.Contracts.Identity
         Task<UserDto> GetUserByEmail(string email);
         Task<AuthResponse> Login(AuthRequest request);
         Task<UserDto> Register(RegistrationDto request);
-        Task ResetPassword(string email, ResetPasswordDto request);
+        Task ChangePassword(string email, ChangePasswordDto request);
         Task ForceResetPassword(ForceResetPasswordDto request);
         Task<IReadOnlyList<UserDto>> GetUsers(IReadOnlyList<string> ids);
         Task Logout(string email);

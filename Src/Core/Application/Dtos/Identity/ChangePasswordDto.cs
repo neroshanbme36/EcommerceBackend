@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Dtos.Identity
 {
-    public class ResetPasswordDto
+    public class ChangePasswordDto
     {
         [Required]
         [StringLength(20)]

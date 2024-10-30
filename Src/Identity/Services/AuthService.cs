@@ -237,12 +237,12 @@ namespace Identity.Services
         throw new BadRequestException($"{GetIdentityErrorMessage(result.Errors)}");
     }
 
-    public async Task ResetPassword(string email, ResetPasswordDto request)
+    public async Task ChangePassword(string email, ChangePasswordDto request)
     {
       var user = await _userManager.FindByEmailAsync(email);
 
       if (user == null)
-        throw new BadRequestException("Reset Password failed");
+        throw new BadRequestException("Change Password failed");
 
       var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
 
