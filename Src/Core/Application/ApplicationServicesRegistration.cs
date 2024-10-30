@@ -27,6 +27,8 @@ namespace Application
             services.AddScoped<IBannerService, BannerService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IAttributeService, AttributeService>();
+            services.AddScoped<ICustomerAddressService, CustomerAddressService>();
+            services.AddScoped<ICountryService, CountryService>();
             return services;
         }
     }

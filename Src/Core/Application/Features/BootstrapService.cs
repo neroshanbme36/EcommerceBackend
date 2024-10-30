@@ -17,12 +17,13 @@ namespace Application.Features
         private readonly IBannerService _bannerService;
         private readonly IProductService _productService;
         private readonly IAttributeService _attributeService;
+        private readonly ICountryService _countryService;
         private readonly string _eposApiKey;
 
         public BootstrapService(IStoreService storeService, IConfigurationService configurationService,
         IDepartmentService departmentService, IAuthService authService, IEposTransactionApiService eposTransApiService,
         IPostedTransactionApiService postedTransactionApiService, IBannerService bannerService, IProductService productService,
-        IAttributeService attributeService)
+        IAttributeService attributeService, ICountryService countryService)
         {
             _storeService = storeService;
             _configurationService = configurationService;
@@ -33,6 +34,7 @@ namespace Application.Features
             _bannerService = bannerService;
             _productService = productService;
             _attributeService = attributeService;
+            _countryService = countryService;
             _eposApiKey = "Epos";
         }
 
@@ -53,6 +55,7 @@ namespace Application.Features
             }
 
             response.Departments = await _departmentService.GetDepartments();
+            response.Countries = await _countryService.GetCountries();
 
             return response;
         }

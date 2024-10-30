@@ -15,6 +15,7 @@ namespace Persistence.Config
             // builder.HasMany(c => c.Customers).WithOne(cu => cu.Country).OnDelete(DeleteBehavior.Restrict);
             // builder.HasMany(c => c.Stores).WithOne(s => s.Country).OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(c => c.Vendors).WithOne(v => v.Country).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(c => c.CustomerAddresses).WithOne(u => u.Country).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

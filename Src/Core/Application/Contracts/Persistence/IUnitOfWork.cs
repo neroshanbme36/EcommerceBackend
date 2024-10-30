@@ -17,5 +17,7 @@ namespace Application.Contracts.Persistence
     IAttributeValueRepository AttributeValueRepository {get;}
     IBrandRepository BrandRepository {get;}
     ITagRepository TagRepository {get;}
+    ICustomerAddressRepository CustomerAddressRepository {get;}
+    ICountryRepository CountryRepository {get;}
   }
 }

@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Entities.CloudStore;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Config;
 
@@ -60,6 +59,7 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new VatConfigurations());
       modelBuilder.ApplyConfiguration(new VendorConfigurations());
       modelBuilder.ApplyConfiguration(new BrandConfigurations());
+      modelBuilder.ApplyConfiguration(new CustomerAddressConfigurations());
     }
 
     public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
@@ -88,5 +88,6 @@ namespace Persistence
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Vat> Vats { get; set; }
     public DbSet<Vendor> Vendors { get; set; }
+    public DbSet<CustomerAddress> CustomerAddresses {get; set;}
   }
 }

@@ -12,5 +12,6 @@ namespace Domain.Entities
         public IReadOnlyList<Store> Stores {get; set;} = new List<Store>();
         // public IReadOnlyList<CloudStoreUser> Users {get; set;} = new List<CloudStoreUser>();
         public IReadOnlyList<Vendor> Vendors {get; set;} = new List<Vendor>();
+        public IReadOnlyList<CustomerAddress> CustomerAddresses {get; set;} = new List<CustomerAddress>();
     }
 }

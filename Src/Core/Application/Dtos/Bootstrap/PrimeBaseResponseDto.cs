@@ -1,5 +1,6 @@
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Dtos.Configuration;
+using Application.Dtos.Country;
 using Application.Dtos.Department;
 using Application.Dtos.Identity;
 using Application.Dtos.Store;
@@ -13,5 +14,6 @@ namespace Application.Dtos.Bootstrap
         public ConfigAttributeValueDto Configuration {get; set;} = new ConfigAttributeValueDto();
         public IReadOnlyList<DepartmentDto> Departments {get; set;} = new List<DepartmentDto>();
         public OrderDto? Order {get; set;}
+        public IReadOnlyList<CountryDto> Countries {get; set;} = new List<CountryDto>();
     }
 }

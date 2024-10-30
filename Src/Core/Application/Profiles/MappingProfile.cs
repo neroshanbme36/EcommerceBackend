@@ -2,6 +2,7 @@ using Application.Dtos.Attribute;
 using Application.Dtos.Banner;
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Dtos.Country;
+using Application.Dtos.CustomerAddress;
 using Application.Dtos.Department;
 using Application.Dtos.Product;
 using Application.Dtos.Store;
@@ -27,6 +28,10 @@ namespace Application.Profiles
       CreateMap<Domain.Entities.Store, StoreDto>()
         .ForMember(dest => dest.LogoImgUrl, opt => opt.MapFrom<StoreLogoImgUrlResolver>());
       #endregion Store
+      #region CUSTOMER
+      CreateMap<CustomerAddress, CustomerAddressDto>();
+      CreateMap<AddOrEditCustomerAddressDto, CustomerAddress>();
+      #endregion CUSTOMER
       #region Country
       CreateMap<Country, CountryDto>();
       #endregion Country
