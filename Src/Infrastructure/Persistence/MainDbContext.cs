@@ -61,6 +61,10 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new BrandConfigurations());
       modelBuilder.ApplyConfiguration(new CustomerAddressConfigurations());
       modelBuilder.ApplyConfiguration(new WishlistProductConfigurations());
+      modelBuilder.ApplyConfiguration(new EposTransactionHeaderConfiguration());
+      modelBuilder.ApplyConfiguration(new EposTransactionLineConfiguration());
+      modelBuilder.ApplyConfiguration(new PostedTransactionHeaderConfiguration());
+      modelBuilder.ApplyConfiguration(new PostedTransactionLineConfiguration());
     }
 
     public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
@@ -71,11 +75,11 @@ namespace Persistence
     public DbSet<Country> Countries { get; set; }
     public DbSet<CrossSellProduct> CrossSellProducts { get; set; }
     public DbSet<Department> Departments { get; set; }
-    // public DbSet<EposTransactionHeader> EposTransactionHeaders { get; set; }
-    // public DbSet<EposTransactionLine> EposTransactionLines { get; set; }
+    public DbSet<EposTransactionHeader> EposTransactionHeaders { get; set; }
+    public DbSet<EposTransactionLine> EposTransactionLines { get; set; }
     public DbSet<MediaFile> MediaFiles { get; set; }
-    // public DbSet<PostedTransactionHeader> PostedTransactionHeaders { get; set; }
-    // public DbSet<PostedTransactionLine> PostedTransactionLines { get; set; }
+    public DbSet<PostedTransactionHeader> PostedTransactionHeaders { get; set; }
+    public DbSet<PostedTransactionLine> PostedTransactionLines { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; }
     public DbSet<ProductBarcode> ProductBarcodes { get; set; }

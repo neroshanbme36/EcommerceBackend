@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Domain.Common;
 
-namespace Domain.Entities.CloudStore
+namespace Domain.Entities
 {
     public class EposTransactionHeader : BaseOrderHeader
     {

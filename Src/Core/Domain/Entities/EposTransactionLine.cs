@@ -1,6 +1,6 @@
 using Domain.Common;
 
-namespace Domain.Entities.CloudStore
+namespace Domain.Entities
 {
     public class EposTransactionLine : BaseOrderLine
     {

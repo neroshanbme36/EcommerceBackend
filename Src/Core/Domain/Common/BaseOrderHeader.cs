@@ -35,5 +35,30 @@ namespace Domain.Common
     public DateTime CreatedOnGmt { get; set; }
     public string? RepairId {get; set;}
     public bool IsVoided {get; set;}
+    public string? EcommCustomerId {get; set;}
+    public string? CustFirstName { get; set; }
+    public string? CustLastName { get; set; }
+    public string? CustPhone {get; set;}
+    public string? CustEmail {get; set;}
+    public long BillCustAddressId {get; set;}
+    public string? BillAddressLine1 { get; set; }
+    public string? BillAddressLine2 { get; set; }
+    public string? BillAddressLine3 { get; set; }
+    public string? BillAddressLine4 { get; set; }
+    public string? BillCity { get; set; }
+    public string? BillState { get; set; }
+    public string? BillPostcode { get; set; }
+    public string? BillCountryId { get; set; }
+    public long DeliCustAddressId {get; set;}
+    public string? DeliAddressLine1 { get; set; }
+    public string? DeliAddressLine2 { get; set; }
+    public string? DeliAddressLine3 { get; set; }
+    public string? DeliAddressLine4 { get; set; }
+    public string? DeliCity { get; set; }
+    public string? DeliState { get; set; }
+    public string? DeliPostcode { get; set; }
+    public string? DeliCountryId { get; set; }
+    public DateTime ExpiresOn {get; set;}
+    public string? Guid {get; set;}
   }
 }

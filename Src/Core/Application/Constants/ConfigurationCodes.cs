@@ -67,6 +67,7 @@ namespace Application.Constants
         public const string DisplayLogicalName = "DisplayLogicalName";
         public const string IpAddress = "IpAddress";
         public const string SecondDisplayActive = "SecondDisplayActive";
+        public const string CartExpiryDuration = "CartExpiryDuration";
         public const string OnlineCardPayment = "OnlineCardPayment";
         public const string CashOnDelivery = "CashOnDelivery";
         public const string PlayStore = "PlayStore";
