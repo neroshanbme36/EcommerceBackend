@@ -7,6 +7,7 @@ namespace Application.Enums.CloudStoreEpos
         QuickProduct = 2,
         InfoCode = 3,
         ProductNotFound = 4,
-        ZeroPriceNotAllowed = 5
+        ZeroPriceNotAllowed = 5,
+        CartExpired = 6
     }
 }

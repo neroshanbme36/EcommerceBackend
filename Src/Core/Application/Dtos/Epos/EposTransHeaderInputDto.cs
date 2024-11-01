@@ -17,5 +17,6 @@ namespace Application.Dtos.CloudStoreEpos.Epos
         public string? CustomerId {get; set;} 
         public string? LoyaltyCardNo {get; set;} 
         public string? RepairId {get; set;}
+        public string? Guid {get; set;}
     }
 }

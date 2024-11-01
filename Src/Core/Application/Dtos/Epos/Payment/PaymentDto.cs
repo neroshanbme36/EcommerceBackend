@@ -9,5 +9,6 @@ namespace Application.Dtos.CloudStoreEpos.Epos.Payment
         public decimal Amount {get; set;}
         public long HeaderId {get; set;}
         public string? RepairId {get; set;}
+        public string? Guid {get; set;}
     }
 }
