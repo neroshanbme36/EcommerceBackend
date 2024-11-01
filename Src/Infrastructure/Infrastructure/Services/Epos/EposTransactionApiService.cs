@@ -28,27 +28,6 @@ namespace Infrastructure.Services.Epos
             _eposAccountApiService = eposAccountApiService;
         }
 
-        public async Task<OrderDto?> GetRepairTransaction(string eposApiKey, string deviceId, string repairId)
-        {
-            string requestUrl = $"{ApiVersion}/eposTransactions/transactions/repair/{repairId}";
-            string accessToken = $"Bearer {await _eposAccountApiService.GetAccessToken(eposApiKey, deviceId)}";
-
-            List<KeyValuePair<string, string>> requestHeaders = new List<KeyValuePair<string, string>> {
-                GetAuthorizationHeader(accessToken),
-                GetEposApiKeyHeader(eposApiKey),
-                GetDeviceIdHeader(deviceId)
-            };
-
-            RestClientResult rcResult = await _restClient.Get<OrderDto>(ServerUrl, requestUrl, requestHeaders);
-            if (rcResult.ApiStatus != ApiStatus.Success) 
-            {
-                if (rcResult.StatusCode == HttpStatusCode.NotFound) return null;
-                throw new InternalServerErrorException(JsonConvert.SerializeObject(rcResult.Data));
-            }
-            if (rcResult.Data == null) return null;
-            return (OrderDto)rcResult.Data;
-        }
-
         public async Task<OrderDto?> GetTransactionByGuid(string eposApiKey, string deviceId, string guid)
         {
             string requestUrl = $"{ApiVersion}/eposTransactions/search-by-guid/{guid}";

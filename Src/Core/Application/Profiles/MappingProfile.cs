@@ -1,5 +1,6 @@
 using Application.Dtos.Attribute;
 using Application.Dtos.Banner;
+using Application.Dtos.Cart;
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Dtos.Country;
 using Application.Dtos.CustomerAddress;
@@ -11,7 +12,6 @@ using Application.Dtos.WishlistProduct;
 using Application.Profiles.Resolvers;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Entities.CloudStore;
 
 namespace Application.Profiles
 {
@@ -71,6 +71,10 @@ namespace Application.Profiles
       CreateMap<EposTransactionHeader, OrderHeaderDto>();
       CreateMap<EposTransactionLine, OrderLineDto>();
       //CreateMap<RepairPaymentDto, PaymentDto>();
+      CreateMap<EposTransHeaderInputDto, CartHeaderInputDto>()
+        .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.Guid));
+      CreateMap<EposTransLineInputDto, CartLineInputDto>()
+        .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.Guid));
       #endregion EPOS TRANSACTION
       #endregion EPOS
     }

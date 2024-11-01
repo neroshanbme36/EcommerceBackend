@@ -1,6 +1,5 @@
 using Application.Contracts.Features;
 using Application.Contracts.Identity;
-using Application.Contracts.Infrastructure.Epos;
 using Application.Dtos.Bootstrap;
 using Application.Dtos.CloudStoreEpos.Epos;
 
@@ -12,30 +11,26 @@ namespace Application.Features
         private readonly IConfigurationService _configurationService;
         private readonly IDepartmentService _departmentService;
         private readonly IAuthService _authService;
-        private readonly IEposTransactionApiService _eposTransApiService;
-        private readonly IPostedTransactionApiService _postedTransactionApiService;
         private readonly IBannerService _bannerService;
         private readonly IProductService _productService;
         private readonly IAttributeService _attributeService;
         private readonly ICountryService _countryService;
-        private readonly string _eposApiKey;
+        private readonly ICartService _cartService;
 
         public BootstrapService(IStoreService storeService, IConfigurationService configurationService,
-        IDepartmentService departmentService, IAuthService authService, IEposTransactionApiService eposTransApiService,
-        IPostedTransactionApiService postedTransactionApiService, IBannerService bannerService, IProductService productService,
-        IAttributeService attributeService, ICountryService countryService)
+        IDepartmentService departmentService, IAuthService authService,
+        IBannerService bannerService, IProductService productService,
+        IAttributeService attributeService, ICountryService countryService, ICartService cartService)
         {
             _storeService = storeService;
             _configurationService = configurationService;
             _departmentService = departmentService;
             _authService = authService;
-            _eposTransApiService = eposTransApiService;
-            _postedTransactionApiService = postedTransactionApiService;
             _bannerService = bannerService;
             _productService = productService;
             _attributeService = attributeService;
             _countryService = countryService;
-            _eposApiKey = "Epos";
+            _cartService = cartService;
         }
 
         public async Task<PrimeBaseResponseDto> GetPrimeBase(string deviceId, string userEmail, PrimeBaseRequestDto request)
@@ -51,20 +46,19 @@ namespace Application.Features
                 response.Configuration = await _configurationService.GetConfigAttributeValue(deviceId);
 
                 if (!string.IsNullOrWhiteSpace(request.CartId))
-                    response.Order = await GetOrderFromEposApi(deviceId, request.CartId);
+                {
+                    try
+                    {
+                        response.Order = await _cartService.GetCart(deviceId, request.CartId);
+                    }
+                    catch {}
+                }
             }
 
             response.Departments = await _departmentService.GetDepartments();
             response.Countries = await _countryService.GetCountries();
 
             return response;
-        }
-
-        private async Task<OrderDto?> GetOrderFromEposApi(string deviceId, string repairId)
-        {
-            OrderDto? order = await _eposTransApiService.GetRepairTransaction(_eposApiKey, deviceId, repairId);
-            if (order != null) return order;
-            return await _postedTransactionApiService.GetRepairTransaction(_eposApiKey, deviceId, repairId);
         }
 
         public async Task<HomePageResourceDto> GetHomePageResource()
