@@ -28,5 +28,7 @@ namespace Application.Dtos.CloudStoreEpos.Epos
         public string ZReportId {get; set;}
         public string RepairId {get; set;}
         public string? Guid {get; set;}
+        public DateTime ExpiresOn {get; set;}
+        public DateTime ExpiresOnGmt {get; set;}
     }
 }

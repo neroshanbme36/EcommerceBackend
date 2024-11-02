@@ -59,6 +59,7 @@ namespace Domain.Common
     public string? DeliPostcode { get; set; }
     public string? DeliCountryId { get; set; }
     public DateTime ExpiresOn {get; set;}
+    public DateTime ExpiresOnGmt {get; set;}
     public string? Guid {get; set;}
   }
 }
