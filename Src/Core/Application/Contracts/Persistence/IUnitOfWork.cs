@@ -20,5 +20,7 @@ namespace Application.Contracts.Persistence
     ICustomerAddressRepository CustomerAddressRepository {get;}
     ICountryRepository CountryRepository {get;}
     IWishlistProductRepository WishlistProductRepository {get;}
+    IPostedTransactionHeaderRepository PostedTransactionHeaderRepository {get;}
+    IPostedTransactionLineRepository PostedTransactionLineRepository {get;}
   }
 }

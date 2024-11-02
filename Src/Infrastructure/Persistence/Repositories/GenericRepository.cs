@@ -1,11 +1,14 @@
 using Application.Contracts.Persistence;
+using Application.Specifications.Common;
+using Domain.Common;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Specification;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly MainDbContext _dbContext;
 
@@ -66,6 +69,21 @@ namespace Persistence.Repositories
         {
             _dbContext.Set<T>().RemoveRange(entities);
             return Task.CompletedTask;
+        }
+
+        public async Task<IReadOnlyList<T>> GetList(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).ToListAsync();
+        }
+
+        public async Task<long> Count(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
+
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>().AsQueryable(), spec);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Application
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IWishlistProductService, WishlistProductService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ITransactionService, TransactionService>();
             return services;
         }
     }

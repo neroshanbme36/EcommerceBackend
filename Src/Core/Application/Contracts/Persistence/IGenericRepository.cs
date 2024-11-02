@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Specifications.Common;
 
 namespace Application.Contracts.Persistence
 {
@@ -17,5 +18,7 @@ namespace Application.Contracts.Persistence
 
     Task Delete(T entity);
     Task RemoveRange(IEnumerable<T> entities);
+    Task<IReadOnlyList<T>> GetList(ISpecification<T> spec);
+    Task<long> Count(ISpecification<T> spec);
   }
 }

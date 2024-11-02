@@ -21,6 +21,8 @@ namespace Persistence.Repositories
     private ICustomerAddressRepository? _customerAddressRepository;
     private ICountryRepository? _countryRepository;
     private IWishlistProductRepository? _wishlistProductRepository;
+    private IPostedTransactionHeaderRepository? _postedTransactionHeaderRepository;
+    private IPostedTransactionLineRepository? _postedTransactionLineRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -81,5 +83,11 @@ namespace Persistence.Repositories
 
     public IWishlistProductRepository WishlistProductRepository =>
       _wishlistProductRepository ??= new WishlistProductRepository(_dbContext);
+
+    public IPostedTransactionHeaderRepository PostedTransactionHeaderRepository =>
+      _postedTransactionHeaderRepository ??= new PostedTransactionHeaderRepository(_dbContext);
+
+    public IPostedTransactionLineRepository PostedTransactionLineRepository =>
+      _postedTransactionLineRepository ??= new PostedTransactionLineRepository(_dbContext);
   }
 }

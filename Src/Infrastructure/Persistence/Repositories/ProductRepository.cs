@@ -113,9 +113,9 @@ namespace Persistence.Repositories
 
             if (!string.IsNullOrWhiteSpace(productParams.Sort))
             {
-                if (string.Equals("Asc", productParams.Sort, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals("CreatedOnAsc", productParams.Sort, StringComparison.OrdinalIgnoreCase))
                     quProducts = quProducts.OrderBy(c => c.CreatedOn);
-                else if (string.Equals("Desc", productParams.Sort, StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals("CreatedOnDesc", productParams.Sort, StringComparison.OrdinalIgnoreCase))
                     quProducts = quProducts.OrderByDescending(c => c.CreatedOn);
                 else if (string.Equals("A-Z", productParams.Sort, StringComparison.OrdinalIgnoreCase))
                     quProducts = quProducts.OrderBy(c => c.Description);

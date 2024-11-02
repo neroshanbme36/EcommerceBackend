@@ -80,7 +80,7 @@ namespace Application.Features
             Pagination<Product> paginationProds = await _unitOfWork.ProductRepository.GetProducts(productParams);
             IReadOnlyList<ProductDto> productDtos = await ConvertToProductDto(paginationProds.Data);
             IReadOnlyList<ProductMinifyDto> productMinifyDtos = _mapper.Map<IReadOnlyList<ProductMinifyDto>>(productDtos);
-            return new Pagination<ProductMinifyDto>(productMinifyDtos, paginationProds.TotalCount, paginationProds.PageNumber, paginationProds.PageSize);
+            return new Pagination<ProductMinifyDto>(paginationProds.PageNumber, paginationProds.PageSize, paginationProds.TotalCount, productMinifyDtos);
         }
 
         public async Task<ProductDetailDto> GetProductBySlug(string slug)
