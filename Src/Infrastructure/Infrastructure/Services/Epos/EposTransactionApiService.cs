@@ -18,20 +18,18 @@ namespace Infrastructure.Services.Epos
         private readonly string ServerUrl;
         private readonly string ApiVersion;
         private readonly IRestClientV2 _restClient;
-        private readonly IEposAccountApiService _eposAccountApiService;
 
-        public EposTransactionApiService(IRestClientV2 restClient, IOptions<MicroservicesBaseUrl> microservicesBaseUrl,  IEposAccountApiService eposAccountApiService)
+        public EposTransactionApiService(IRestClientV2 restClient, IOptions<MicroservicesBaseUrl> microservicesBaseUrl)
         {
             _restClient = restClient;
             ServerUrl = microservicesBaseUrl.Value.EposServerUrl;
             ApiVersion = $"/api/v{microservicesBaseUrl.Value.EposApiVersion}";
-            _eposAccountApiService = eposAccountApiService;
         }
 
-        public async Task<OrderDto?> GetTransactionByGuid(string eposApiKey, string deviceId, string guid)
+        public async Task<OrderDto?> GetTransactionByGuid(string token, string eposApiKey, string deviceId, string guid)
         {
             string requestUrl = $"{ApiVersion}/eposTransactions/search-by-guid/{guid}";
-            string accessToken = $"Bearer {await _eposAccountApiService.GetAccessToken(eposApiKey, deviceId)}";
+            string accessToken = $"Bearer {token}";
 
             List<KeyValuePair<string, string>> requestHeaders = new List<KeyValuePair<string, string>> {
                 GetAuthorizationHeader(accessToken),
@@ -42,18 +40,23 @@ namespace Infrastructure.Services.Epos
             RestClientResult rcResult = await _restClient.Get<OrderDto>(ServerUrl, requestUrl, requestHeaders);
             if (rcResult.ApiStatus != ApiStatus.Success) 
             {
-                if (rcResult.StatusCode == HttpStatusCode.NotFound) return null;
-                throw new InternalServerErrorException(JsonConvert.SerializeObject(rcResult.Data));
+                string jsonErrorMsg = JsonConvert.SerializeObject(rcResult.Data);
+                if (rcResult.StatusCode == HttpStatusCode.Unauthorized)
+                    throw new UnauthorizedException(jsonErrorMsg);
+                else if (rcResult.StatusCode == HttpStatusCode.NotFound) 
+                    throw new NotFoundException(jsonErrorMsg, guid);
+                else
+                    throw new InternalServerErrorException(jsonErrorMsg);
             }
             if (rcResult.Data == null) return null;
             return (OrderDto)rcResult.Data;
         }
 
 
-        public async Task<OrderDto?> InsertOrUpdateHeader(string eposApiKey, string deviceId, EposTransHeaderInputDto request)
+        public async Task<OrderDto?> InsertOrUpdateHeader(string token, string eposApiKey, string deviceId, EposTransHeaderInputDto request)
         {
             string requestUrl = $"{ApiVersion}/eposTransactions/insertOrUpdateHeader";
-            string accessToken = $"Bearer {await _eposAccountApiService.GetAccessToken(eposApiKey, deviceId)}";
+            string accessToken = $"Bearer {token}";
 
             List<KeyValuePair<string, string>> requestHeaders = new List<KeyValuePair<string, string>> {
                 GetAuthorizationHeader(accessToken),
@@ -64,16 +67,18 @@ namespace Infrastructure.Services.Epos
             RestClientResult rcResult = await _restClient.Post<OrderDto>(ServerUrl, requestUrl, requestHeaders, request);
             if (rcResult.ApiStatus != ApiStatus.Success) 
             {
-                throw new InternalServerErrorException(JsonConvert.SerializeObject(rcResult.Data));
+                string jsonErrorMsg = JsonConvert.SerializeObject(rcResult.Data);
+                if (rcResult.StatusCode == HttpStatusCode.Unauthorized) throw new UnauthorizedException(jsonErrorMsg);
+                throw new InternalServerErrorException(jsonErrorMsg);
             }
             if (rcResult.Data == null) return null;
             return (OrderDto)rcResult.Data;
         }
 
-        public async Task<ProductSearchResultDto?> InsertOrUpdateLine(string eposApiKey, string deviceId, EposTransLineInputDto request)
+        public async Task<ProductSearchResultDto?> InsertOrUpdateLine(string token, string eposApiKey, string deviceId, EposTransLineInputDto request)
         {
             string requestUrl = $"{ApiVersion}/eposTransactions/insertOrUpdateLine";
-            string accessToken = $"Bearer {await _eposAccountApiService.GetAccessToken(eposApiKey, deviceId)}";
+            string accessToken = $"Bearer {token}";
 
             List<KeyValuePair<string, string>> requestHeaders = new List<KeyValuePair<string, string>> {
                 GetAuthorizationHeader(accessToken),
@@ -84,7 +89,9 @@ namespace Infrastructure.Services.Epos
             RestClientResult rcResult = await _restClient.Post<ProductSearchResultDto>(ServerUrl, requestUrl, requestHeaders, request);
             if (rcResult.ApiStatus != ApiStatus.Success) 
             {
-                throw new InternalServerErrorException(JsonConvert.SerializeObject(rcResult.Data));
+                string jsonErrorMsg = JsonConvert.SerializeObject(rcResult.Data);
+                if (rcResult.StatusCode == HttpStatusCode.Unauthorized) throw new UnauthorizedException(jsonErrorMsg);
+                throw new InternalServerErrorException(jsonErrorMsg);
             }
             if (rcResult.Data == null) return null;
             return (ProductSearchResultDto)rcResult.Data;

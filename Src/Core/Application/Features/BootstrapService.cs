@@ -1,7 +1,6 @@
 using Application.Contracts.Features;
 using Application.Contracts.Identity;
 using Application.Dtos.Bootstrap;
-using Application.Dtos.CloudStoreEpos.Epos;
 
 namespace Application.Features
 {

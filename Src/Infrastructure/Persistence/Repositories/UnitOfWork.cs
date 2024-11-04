@@ -23,6 +23,8 @@ namespace Persistence.Repositories
     private IWishlistProductRepository? _wishlistProductRepository;
     private IPostedTransactionHeaderRepository? _postedTransactionHeaderRepository;
     private IPostedTransactionLineRepository? _postedTransactionLineRepository;
+    private IAppAccessTokenRepository? _appAccessTokenRepository;
+
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -89,5 +91,8 @@ namespace Persistence.Repositories
 
     public IPostedTransactionLineRepository PostedTransactionLineRepository =>
       _postedTransactionLineRepository ??= new PostedTransactionLineRepository(_dbContext);
+
+    public IAppAccessTokenRepository AppAccessTokenRepository =>
+          _appAccessTokenRepository ??= new AppAccessTokenRepository(_dbContext);
   }
 }

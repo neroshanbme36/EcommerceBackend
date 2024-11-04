@@ -22,5 +22,6 @@ namespace Application.Contracts.Persistence
     IWishlistProductRepository WishlistProductRepository {get;}
     IPostedTransactionHeaderRepository PostedTransactionHeaderRepository {get;}
     IPostedTransactionLineRepository PostedTransactionLineRepository {get;}
+    IAppAccessTokenRepository AppAccessTokenRepository {get;}
   }
 }

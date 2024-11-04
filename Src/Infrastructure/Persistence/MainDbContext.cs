@@ -65,6 +65,7 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new EposTransactionLineConfiguration());
       modelBuilder.ApplyConfiguration(new PostedTransactionHeaderConfiguration());
       modelBuilder.ApplyConfiguration(new PostedTransactionLineConfiguration());
+      modelBuilder.ApplyConfiguration(new AppAccessTokenConfigurations());
     }
 
     public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
@@ -95,5 +96,6 @@ namespace Persistence
     public DbSet<Vendor> Vendors { get; set; }
     public DbSet<CustomerAddress> CustomerAddresses {get; set;}
     public DbSet<WishlistProduct> WishlistProducts {get; set;}
+    public DbSet<AppAccessToken> AppAccessTokens {get; set;}
   }
 }
