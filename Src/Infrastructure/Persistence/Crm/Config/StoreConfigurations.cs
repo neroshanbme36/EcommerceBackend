@@ -25,6 +25,7 @@ namespace Persistence.Crm.Config
             builder.Property(s => s.Email).HasMaxLength(50);
             builder.Property(s => s.CountryId).HasMaxLength(10).IsRequired();
             builder.Property(s => s.Guid).HasMaxLength(450).IsRequired();
+            builder.Property(s => s.EcommerceUrl).HasMaxLength(250);
 
             builder.Property(s => s.CustomerId).HasMaxLength(20).IsRequired();
             //builder.HasOne(s => s.Customer).WithMany(c => c.Stores).HasForeignKey(s => s.CustomerId);

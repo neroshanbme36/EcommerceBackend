@@ -19,7 +19,6 @@ namespace Application
             services.Configure<Content>(configuration.GetSection("Content"));
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddScoped<ICrmStoreService, CrmStoreService>();
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IConfigurationService, ConfigurationService>();

@@ -23,6 +23,7 @@ namespace Domain.Crm.Entities
         public bool IsActive { get; set; }
         public string CountryId { get; set; }  = string.Empty;
         public string Guid {get; set;}  = string.Empty;
+        public string? EcommerceUrl { get; set; }
 
         public string CustomerId { get; set; }  = string.Empty;
         //public Customer? Customer { get; set; }

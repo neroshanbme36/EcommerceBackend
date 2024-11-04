@@ -12,12 +12,12 @@ namespace Api.Helpers
             if (operation.Parameters == null)
                 operation.Parameters = new List<OpenApiParameter>();
 
-            operation.Parameters.Add(new OpenApiParameter()
-            {
-                Name = RequestHeaderCodes.STORE_GUID,
-                In = ParameterLocation.Header,
-                Required = true
-            });
+            // operation.Parameters.Add(new OpenApiParameter()
+            // {
+            //     Name = RequestHeaderCodes.STORE_GUID,
+            //     In = ParameterLocation.Header,
+            //     Required = true
+            // });
         }
     }
 }

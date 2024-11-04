@@ -22,30 +22,24 @@ namespace Api.Middlewares
 
         public async Task InvokeAsync(HttpContext context, CrmDbContext _crmDbContext, MainDbContext _mainDbContext, IdentityDbContext _identityDbContext)
         {
-            string storeGuid = context.Request.Headers[RequestHeaderCodes.STORE_GUID];
-
             List<string> errorMessages = new List<string>();
-            if (string.IsNullOrWhiteSpace(storeGuid)) errorMessages.Add("StoreGuid is required field");
+
+            Store? store = await _crmDbContext.Stores.FirstOrDefaultAsync(c => c.EcommerceUrl == context.Request.Host.ToString());
+            if (store == null) errorMessages.Add("Store doesnt exist");
 
             if (errorMessages.Count == 0)
             {
-                Store? store = await _crmDbContext.Stores.FirstOrDefaultAsync(c => c.Guid == storeGuid);
-                if (store == null) errorMessages.Add("Store doesnt exist");
-
-                if (errorMessages.Count == 0)
+                var device = await _crmDbContext.Devices.FirstOrDefaultAsync(c => c.StoreId == store.Id && c.Type == 2 && c.Description == "Ecommerce");
+                if (device == null)
                 {
-                    var device = await _crmDbContext.Devices.FirstOrDefaultAsync(c => c.StoreId == store.Id && c.Type == 2 && c.Description == "Ecommerce");
-                    if (device == null)
-                    {
-                        errorMessages.Add("Device doesnt exists");
-                    }
-                    else
-                    {
-                        context.Request.Headers.Add(RequestHeaderCodes.DEVICE_ID, device.Id);
-                        string database = "EcommAuth";
-                         _identityDbContext.ConnectionString = SqlServerHelper.GetMySqlConnectionString(device.IpAddress, device.Port, database, device.Username, device.Password, false);
-                        _mainDbContext.ConnectionString = SqlServerHelper.GetMySqlConnectionString(device.IpAddress, device.Port, device.Database, device.Username, device.Password, false);
-                    }
+                    errorMessages.Add("Device doesnt exists");
+                }
+                else
+                {
+                    context.Request.Headers.Add(RequestHeaderCodes.DEVICE_ID, device.Id);
+                    string database = "EcommAuth";
+                    _identityDbContext.ConnectionString = SqlServerHelper.GetMySqlConnectionString(device.IpAddress, device.Port, database, device.Username, device.Password, false);
+                    _mainDbContext.ConnectionString = SqlServerHelper.GetMySqlConnectionString(device.IpAddress, device.Port, device.Database, device.Username, device.Password, false);
                 }
             }
 
