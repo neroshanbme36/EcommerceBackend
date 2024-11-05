@@ -22,7 +22,7 @@ namespace API.Controllers.v1
         }
         
         [AllowAnonymous]
-        [HttpPost("PrimeBase")]
+        [HttpPost("prime-base")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PrimeBaseResponseDto>> GetPrimeBase(PrimeBaseRequestDto request)
@@ -36,7 +36,7 @@ namespace API.Controllers.v1
         }
 
         [AllowAnonymous]
-        [HttpGet("HomePageResource")]
+        [HttpGet("homepage-resource")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<HomePageResourceDto>> GetHomePageResource()
@@ -45,7 +45,7 @@ namespace API.Controllers.v1
         }
 
         [AllowAnonymous]
-        [HttpGet("BrowseCategoryPageResource")]
+        [HttpGet("browse-category-resource")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<BrowseCategoryPageResourceDto>> GetBrowseCategoryPageResourceDto()
