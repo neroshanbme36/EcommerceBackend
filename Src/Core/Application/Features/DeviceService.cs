@@ -19,13 +19,19 @@ namespace Application.Features
 
         public async Task<string> GetEcommerceDeviceId()
         {
+            Device? device = await GetEcommerceDevice();
+            return device != null ? device.Id : string.Empty;
+        }
+
+        public async Task<Device?> GetEcommerceDevice()
+        {
             Domain.Entities.Store? store = await _unitOfWork.StoreRepository.GetTopStore();
             if (store == null) throw new BadRequestException("Store doesnt exist");
 
             Device? device = await _crmUnitOfWork.DeviceRepository.GetEcommerceDevice(store.Id);
             if (device == null) throw new BadRequestException("Device doesnt exist");
 
-            return device.Id;
+            return device;
         }
     }
 }

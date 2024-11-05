@@ -6,5 +6,6 @@ namespace Application.Models
         public string CurrentApiVersion {get; set;} = string.Empty;
         public string EposServerUrl {get; set;} = string.Empty;
         public string EposApiVersion {get; set;} = string.Empty;
+        public string EposAppName {get; set;} = string.Empty;
     }
 }

@@ -4,28 +4,30 @@ using Application.Contracts.Persistence;
 using Application.Dtos.Cart;
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Exceptions;
+using Application.Models;
 using AutoMapper;
+using Domain.Crm.Entities;
 using Domain.Entities;
 using Domain.Enums.CloudStoreEpos;
+using Microsoft.Extensions.Options;
 
 namespace Application.Features
 {
     public class CartService : ICartService
     {
         private readonly IEposTransactionApiService _eposTransApiService;
-        private readonly string _eposApiKey;
-        private readonly string _appName;
+        private readonly string _eposAppName;
         private readonly IMapper _mapper;
         private readonly IAppAccessTokenService _appAccessTokenService;
         private readonly IEposAccountApiService _eposAccountApiService;
         private readonly IUnitOfWork _uow;
         private readonly IDeviceService _deviceService;
 
-        public CartService(IEposTransactionApiService eposTransApiService, IMapper mapper, IAppAccessTokenService appAccessTokenService, IEposAccountApiService eposAccountApiService, IUnitOfWork uow, IDeviceService deviceService)
+        public CartService(IEposTransactionApiService eposTransApiService, IMapper mapper, IAppAccessTokenService appAccessTokenService, IEposAccountApiService eposAccountApiService, 
+        IUnitOfWork uow, IDeviceService deviceService, IOptions<MicroservicesBaseUrl> microservicesBaseUrl)
         {
             _eposTransApiService = eposTransApiService;
-            _eposApiKey = "EcommDE1142";
-            _appName = "Epos";
+            _eposAppName = microservicesBaseUrl.Value.EposAppName;
             _mapper = mapper;
             _appAccessTokenService = appAccessTokenService;
             _eposAccountApiService = eposAccountApiService;
@@ -43,12 +45,12 @@ namespace Application.Features
 
         public async Task<OrderDto> GetCart(string cartId)
         {
-            string deviceId = await _deviceService.GetEcommerceDeviceId();
+            Device device = await _deviceService.GetEcommerceDevice();
             OrderDto? order = null;
-            AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_appName, _eposAccountApiService.GetAccessToken(_eposApiKey, deviceId));
+            AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_eposAppName, _eposAccountApiService.GetAccessToken(device.ProductKey, device.Id));
             try
             {
-                order = await _eposTransApiService.GetTransactionByGuid(appAccessToken.Token, _eposApiKey, deviceId, cartId);
+                order = await _eposTransApiService.GetTransactionByGuid(appAccessToken.Token, device.ProductKey, device.Id, cartId);
             }
             catch (UnauthorizedException ex)
             {
@@ -72,14 +74,14 @@ namespace Application.Features
 
         public async Task<OrderDto> AddOrEditCartHeader(CartHeaderInputDto cartHeaderInputDto)
         {
-            string deviceId = await _deviceService.GetEcommerceDeviceId();
+            Device device = await _deviceService.GetEcommerceDevice();
             OrderDto? order = null;
             EposTransHeaderInputDto request = _mapper.Map<EposTransHeaderInputDto>(cartHeaderInputDto);
             request.TransType = TransactionType.Sales;
-            AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_appName, _eposAccountApiService.GetAccessToken(_eposApiKey, deviceId));
+            AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_eposAppName, _eposAccountApiService.GetAccessToken(device.ProductKey, device.Id));
             try
             {
-                order = await _eposTransApiService.InsertOrUpdateHeader(appAccessToken.Token, _eposApiKey, deviceId, request);
+                order = await _eposTransApiService.InsertOrUpdateHeader(appAccessToken.Token, device.ProductKey, device.Id, request);
             }
             catch (UnauthorizedException ex)
             {
@@ -98,15 +100,15 @@ namespace Application.Features
 
         public async Task<ProductSearchResultDto> AddOrEditCartLine(CartLineInputDto cartLineInputDto)
         {
-            string deviceId = await _deviceService.GetEcommerceDeviceId();
+            Device device = await _deviceService.GetEcommerceDevice();
             ProductSearchResultDto? productSearchResultDto = null;
             EposTransLineInputDto request = _mapper.Map<EposTransLineInputDto>(cartLineInputDto);
             request.EntryType = EntryType.Product;
             request.TransType = TransactionType.Sales;
-            AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_appName, _eposAccountApiService.GetAccessToken(_eposApiKey, deviceId));
+            AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_eposAppName, _eposAccountApiService.GetAccessToken(device.ProductKey, device.Id));
             try
             {
-                productSearchResultDto = await _eposTransApiService.InsertOrUpdateLine(appAccessToken.Token, _eposApiKey, deviceId, request);
+                productSearchResultDto = await _eposTransApiService.InsertOrUpdateLine(appAccessToken.Token, device.ProductKey, device.Id, request);
             }
             catch (UnauthorizedException ex)
             {
