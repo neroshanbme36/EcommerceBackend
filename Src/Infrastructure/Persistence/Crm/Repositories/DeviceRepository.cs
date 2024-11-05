@@ -16,9 +16,9 @@ namespace Persistence.Crm.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Device?> GetDeviceByStoreIdAndDescription(string storeId, string description)
+        public async Task<Device?> GetEcommerceDevice(string storeId)
         {
-            return await _dbContext.Devices.FirstOrDefaultAsync(c => c.StoreId == storeId && c.Description == description);
+            return await _dbContext.Devices.FirstOrDefaultAsync(c => c.StoreId == storeId && c.Type == 2 && c.Description == "Ecommerce");
         }
     }
 }

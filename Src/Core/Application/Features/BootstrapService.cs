@@ -32,7 +32,7 @@ namespace Application.Features
             _cartService = cartService;
         }
 
-        public async Task<PrimeBaseResponseDto> GetPrimeBase(string deviceId, string userEmail, PrimeBaseRequestDto request)
+        public async Task<PrimeBaseResponseDto> GetPrimeBase(string userEmail, PrimeBaseRequestDto request)
         {
             PrimeBaseResponseDto response = new PrimeBaseResponseDto();
             response.Store = await _storeService.GetStore();
@@ -40,18 +40,15 @@ namespace Application.Features
             if (!string.IsNullOrWhiteSpace(userEmail))
                 response.User = await _authService.GetUserByEmail(userEmail);
 
-            if (!string.IsNullOrWhiteSpace(deviceId))
-            {
-                response.Configuration = await _configurationService.GetConfigAttributeValue(deviceId);
+            response.Configuration = await _configurationService.GetConfigAttributeValue();
 
-                if (!string.IsNullOrWhiteSpace(request.CartId))
+            if (!string.IsNullOrWhiteSpace(request.CartId))
+            {
+                try
                 {
-                    try
-                    {
-                        response.Order = await _cartService.GetCart(deviceId, request.CartId);
-                    }
-                    catch {}
+                    response.Order = await _cartService.GetCart(request.CartId);
                 }
+                catch { }
             }
 
             response.Departments = await _departmentService.GetDepartments();

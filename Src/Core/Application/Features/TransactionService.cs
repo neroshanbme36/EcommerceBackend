@@ -14,15 +14,18 @@ namespace Application.Features
     {
         private readonly IUnitOfWork _storeUnitOfWork;
         private readonly IMapper _mapper;
+        private readonly IDeviceService _deviceService;
 
-        public TransactionService(IUnitOfWork storeUnitOfWork, IMapper mapper)
+        public TransactionService(IUnitOfWork storeUnitOfWork, IMapper mapper, IDeviceService deviceService)
         {
             _storeUnitOfWork = storeUnitOfWork;
             _mapper = mapper;
+            _deviceService = deviceService;
         }
 
-        public async Task<Pagination<OrderDto>> GetPostedTransactions(PostedTransHeaderParams headerParams, string deviceId, string userId)
+        public async Task<Pagination<OrderDto>> GetPostedTransactions(PostedTransHeaderParams headerParams, string userId)
         {
+            string deviceId = await _deviceService.GetEcommerceDeviceId();
             List<long> ids = new List<long>();
             
             if (headerParams.Id.HasValue)

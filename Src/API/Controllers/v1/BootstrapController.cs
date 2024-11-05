@@ -2,7 +2,6 @@ using Api.Controllers.Common;
 using Api.Errors;
 using Api.Extensions;
 using Api.Middlewares.Builders;
-using Application.Constants;
 using Application.Contracts.Features;
 using Application.Dtos.Bootstrap;
 using Microsoft.AspNetCore.Authorization;
@@ -27,12 +26,8 @@ namespace API.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PrimeBaseResponseDto>> GetPrimeBase(PrimeBaseRequestDto request)
         {
-            string? deviceId = HttpContext.Request.Headers[RequestHeaderCodes.DEVICE_ID];
-            if (string.IsNullOrWhiteSpace(deviceId)) deviceId = string.Empty;
-
             string userEmail = HttpContext.User.RetrieveEmailFromPrincipal();
-            
-            return await _bootstrapService.GetPrimeBase(deviceId, userEmail, request);
+            return await _bootstrapService.GetPrimeBase(userEmail, request);
         }
 
         [AllowAnonymous]

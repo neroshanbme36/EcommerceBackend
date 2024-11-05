@@ -32,6 +32,7 @@ namespace Application
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IAppAccessTokenService, AppAccessTokenService>();
+            services.AddScoped<IDeviceService, DeviceService>();
             return services;
         }
     }

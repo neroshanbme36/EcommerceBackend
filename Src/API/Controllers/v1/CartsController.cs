@@ -1,7 +1,6 @@
 using Api.Controllers.Common;
 using Api.Errors;
 using Api.Middlewares.Builders;
-using Application.Constants;
 using Application.Contracts.Features;
 using Application.Dtos.Cart;
 using Application.Dtos.CloudStoreEpos.Epos;
@@ -28,8 +27,7 @@ namespace API.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<OrderDto>> GetCart(string cartId)
         {
-            string? deviceId = HttpContext.Request.Headers[RequestHeaderCodes.DEVICE_ID];
-            return await _cartService.GetCart(deviceId, cartId);
+            return await _cartService.GetCart(cartId);
         }
 
         [AllowAnonymous]
@@ -39,8 +37,7 @@ namespace API.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<OrderDto>> AddOrEditCartHeader(CartHeaderInputDto request)
         {
-            string? deviceId = HttpContext.Request.Headers[RequestHeaderCodes.DEVICE_ID];
-            return await _cartService.AddOrEditCartHeader(deviceId, request);
+            return await _cartService.AddOrEditCartHeader(request);
         }
 
         [AllowAnonymous]
@@ -50,8 +47,7 @@ namespace API.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ProductSearchResultDto>> AddOrEditCartLine(CartLineInputDto request)
         {
-            string? deviceId = HttpContext.Request.Headers[RequestHeaderCodes.DEVICE_ID];
-            return await _cartService.AddOrEditCartLine(deviceId, request);
+            return await _cartService.AddOrEditCartLine(request);
         }
     }
 }

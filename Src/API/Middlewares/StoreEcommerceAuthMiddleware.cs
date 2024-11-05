@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Application.Constants;
 using Application.Exceptions;
 using Application.Helpers;
 using Domain.Crm.Entities;
 using Identity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -36,7 +32,6 @@ namespace Api.Middlewares
                 }
                 else
                 {
-                    context.Request.Headers.Add(RequestHeaderCodes.DEVICE_ID, device.Id);
                     string database = "EcommAuth";
                     _identityDbContext.ConnectionString = SqlServerHelper.GetMySqlConnectionString(device.IpAddress, device.Port, database, device.Username, device.Password, false);
                     _mainDbContext.ConnectionString = SqlServerHelper.GetMySqlConnectionString(device.IpAddress, device.Port, device.Database, device.Username, device.Password, false);

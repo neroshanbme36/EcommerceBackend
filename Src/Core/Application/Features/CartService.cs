@@ -19,8 +19,9 @@ namespace Application.Features
         private readonly IAppAccessTokenService _appAccessTokenService;
         private readonly IEposAccountApiService _eposAccountApiService;
         private readonly IUnitOfWork _uow;
+        private readonly IDeviceService _deviceService;
 
-        public CartService(IEposTransactionApiService eposTransApiService, IMapper mapper, IAppAccessTokenService appAccessTokenService, IEposAccountApiService eposAccountApiService, IUnitOfWork uow)
+        public CartService(IEposTransactionApiService eposTransApiService, IMapper mapper, IAppAccessTokenService appAccessTokenService, IEposAccountApiService eposAccountApiService, IUnitOfWork uow, IDeviceService deviceService)
         {
             _eposTransApiService = eposTransApiService;
             _eposApiKey = "EcommDE1142";
@@ -29,6 +30,7 @@ namespace Application.Features
             _appAccessTokenService = appAccessTokenService;
             _eposAccountApiService = eposAccountApiService;
             _uow = uow;
+            _deviceService = deviceService;
         }
 
         private async Task<bool> SaveUnCommitedChanges()
@@ -39,8 +41,9 @@ namespace Application.Features
             return result;
         }
 
-        public async Task<OrderDto> GetCart(string deviceId, string cartId)
+        public async Task<OrderDto> GetCart(string cartId)
         {
+            string deviceId = await _deviceService.GetEcommerceDeviceId();
             OrderDto? order = null;
             AppAccessToken appAccessToken = await _appAccessTokenService.GetAppAccessToken(_appName, _eposAccountApiService.GetAccessToken(_eposApiKey, deviceId));
             try
@@ -67,8 +70,9 @@ namespace Application.Features
             return order;
         }
 
-        public async Task<OrderDto> AddOrEditCartHeader(string deviceId, CartHeaderInputDto cartHeaderInputDto)
+        public async Task<OrderDto> AddOrEditCartHeader(CartHeaderInputDto cartHeaderInputDto)
         {
+            string deviceId = await _deviceService.GetEcommerceDeviceId();
             OrderDto? order = null;
             EposTransHeaderInputDto request = _mapper.Map<EposTransHeaderInputDto>(cartHeaderInputDto);
             request.TransType = TransactionType.Sales;
@@ -92,8 +96,9 @@ namespace Application.Features
             return order;
         }
 
-        public async Task<ProductSearchResultDto> AddOrEditCartLine(string deviceId, CartLineInputDto cartLineInputDto)
+        public async Task<ProductSearchResultDto> AddOrEditCartLine(CartLineInputDto cartLineInputDto)
         {
+            string deviceId = await _deviceService.GetEcommerceDeviceId();
             ProductSearchResultDto? productSearchResultDto = null;
             EposTransLineInputDto request = _mapper.Map<EposTransLineInputDto>(cartLineInputDto);
             request.EntryType = EntryType.Product;

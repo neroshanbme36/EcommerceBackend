@@ -4,6 +4,6 @@ namespace Application.Contracts.Features
 {
     public interface IConfigurationService
     {
-        Task<ConfigAttributeValueDto> GetConfigAttributeValue(string deviceId);
+        Task<ConfigAttributeValueDto> GetConfigAttributeValue();
     }
 }

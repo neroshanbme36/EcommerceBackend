@@ -9,6 +9,7 @@ namespace Persistence.Crm.Repositories
   {
     private readonly CrmDbContext _dbContext;
     private ICrmStoreRepository? _storeRepository;
+    private IDeviceRepository? _deviceRepository;
 
     public CrmUnitOfWork(CrmDbContext dbContext)
     {
@@ -33,5 +34,8 @@ namespace Persistence.Crm.Repositories
 
     public ICrmStoreRepository StoreRepository =>
         _storeRepository ??= new CrmStoreRepository(_dbContext);
+
+    public IDeviceRepository DeviceRepository =>
+      _deviceRepository ??= new DeviceRepository(_dbContext);
   }
 }

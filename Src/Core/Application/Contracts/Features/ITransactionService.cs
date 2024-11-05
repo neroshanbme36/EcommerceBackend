@@ -6,6 +6,6 @@ namespace Application.Contracts.Features
 {
     public interface ITransactionService
     {
-        Task<Pagination<OrderDto>> GetPostedTransactions(PostedTransHeaderParams headerParams, string deviceId, string userId);
+        Task<Pagination<OrderDto>> GetPostedTransactions(PostedTransHeaderParams headerParams, string userId);
     }
 }

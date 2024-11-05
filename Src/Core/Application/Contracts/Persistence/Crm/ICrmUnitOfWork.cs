@@ -8,5 +8,6 @@ namespace Application.Contracts.Persistence.Crm
     Task<int> Save();
     bool HasChanges();
     ICrmStoreRepository StoreRepository { get; }
+    IDeviceRepository DeviceRepository {get;}
   }
 }

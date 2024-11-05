@@ -10,14 +10,18 @@ namespace Application.Features
     public class ConfigurationService : IConfigurationService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDeviceService _deviceService;
 
-        public ConfigurationService(IUnitOfWork unitOfWork)
+        public ConfigurationService(IUnitOfWork unitOfWork, IDeviceService deviceService)
         {
             _unitOfWork = unitOfWork;
+            _deviceService = deviceService;
         }
 
-        public async Task<ConfigAttributeValueDto> GetConfigAttributeValue(string deviceId)
+        public async Task<ConfigAttributeValueDto> GetConfigAttributeValue()
         {
+            string deviceId = await _deviceService.GetEcommerceDeviceId();
+
             ConfigAttributeValueDto dto = new ConfigAttributeValueDto();
             var configurations = await _unitOfWork.ConfigurationRepository.GetConfigurationsByDeviceIdAndCommon(deviceId);
             foreach (Configuration config in configurations)

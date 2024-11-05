@@ -2,7 +2,6 @@ using Api.Controllers.Common;
 using Api.Errors;
 using Api.Extensions;
 using Api.Middlewares.Builders;
-using Application.Constants;
 using Application.Contracts.Features;
 using Application.Dtos.CloudStoreEpos.Epos;
 using Application.Models;
@@ -28,9 +27,8 @@ namespace Api.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Pagination<OrderDto>>> GetPostedTransactions([FromQuery] PostedTransHeaderParams headerParams)
         {
-            string? deviceId = HttpContext.Request.Headers[RequestHeaderCodes.DEVICE_ID];
             string userId = HttpContext.User.RetrieveUserIdFromPrincipal();
-            return await _transactionService.GetPostedTransactions(headerParams, deviceId, userId);
+            return await _transactionService.GetPostedTransactions(headerParams, userId);
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Application.Contracts.Persistence.Crm
 {
     public interface IDeviceRepository : ICrmGenericRepository<Device>
     {
-        Task<Device?> GetDeviceByStoreIdAndDescription(string storeId, string description);
+        Task<Device?> GetEcommerceDevice(string storeId);
     }
 }
