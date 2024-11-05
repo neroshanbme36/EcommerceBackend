@@ -20,6 +20,7 @@ using Application.Models;
 using Application.Dtos.Email;
 using Application.Contracts.Persistence;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace Identity.Services
 {
@@ -31,13 +32,15 @@ namespace Identity.Services
     private readonly IPushNotificationSender _pushNotificationSender;
     private readonly IEmailSender _emailSender;
     private readonly IUnitOfWork _mainUow;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public AuthService(UserManager<ApplicationUser> userManager,
         IOptions<JwtSettings> jwtSettings,
         SignInManager<ApplicationUser> signInManager,
         IPushNotificationSender pushNotificationSender,
         IEmailSender emailSender,
-        IUnitOfWork mainUow)
+        IUnitOfWork mainUow,
+        IHttpContextAccessor httpContextAccessor)
     {
       _userManager = userManager;
       _jwtSettings = jwtSettings.Value;
@@ -45,6 +48,7 @@ namespace Identity.Services
       _pushNotificationSender = pushNotificationSender;
       _emailSender = emailSender;
       _mainUow = mainUow;
+      _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<UserDto> GetUserByEmail(string email)
@@ -263,7 +267,8 @@ namespace Identity.Services
       Store store = await _mainUow.StoreRepository.GetTopStore();
       if (store == null) return;
 
-      string resetUrl = $"https://{store.EcommerceUrl}/reset-password?token={Uri.EscapeDataString(token)}&email={request.Email}";
+      HttpRequest httpRequest = _httpContextAccessor.HttpContext.Request;
+      string resetUrl = $"{httpRequest.Scheme}://{httpRequest.Host}/reset-password?token={Uri.EscapeDataString(token)}&email={request.Email}";
 
       EmailDto emailDto = new EmailDto
       {
