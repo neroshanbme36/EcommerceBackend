@@ -21,10 +21,6 @@ namespace Application.Profiles
     {
       // ReverseMap() represents the reversal of the mapping
       // CreateMap<Source, Destination>();
-      #region CrmStore
-      CreateMap<Domain.Crm.Entities.Store, CrmStoreDto>()
-        .ForMember(dest => dest.LogoImgUrl, opt => opt.MapFrom<CrmStoreLogoImgUrlResolver>());
-      #endregion CrmStore
       #region Store
       CreateMap<Domain.Entities.Store, StoreDto>()
         .ForMember(dest => dest.LogoImgUrl, opt => opt.MapFrom<StoreLogoImgUrlResolver>());

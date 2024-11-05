@@ -3,18 +3,19 @@ using Application.Helpers;
 using Application.Models;
 using AutoMapper;
 using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace Application.Profiles.Resolvers
 {
     public class StoreLogoImgUrlResolver : IValueResolver<Store, StoreDto, string>
     {
-        private readonly MicroservicesBaseUrl _microserviceBaseUrl;
+       private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Content _content;
 
-        public StoreLogoImgUrlResolver(IOptions<MicroservicesBaseUrl> microserviceBaseUrl, IOptions<Content> content)
+        public StoreLogoImgUrlResolver(IHttpContextAccessor httpContextAccessor, IOptions<Content> content)
         {
-            _microserviceBaseUrl = microserviceBaseUrl.Value;
+            _httpContextAccessor = httpContextAccessor;
             _content = content.Value;
         }
 
@@ -27,7 +28,8 @@ namespace Application.Profiles.Resolvers
                 path = _content.NoImagePath;
                 fileNameWithExt = FileHelper.GetFileNameWithExt(path, "noimage", "noimage");
             }
-            string apiUrl = _microserviceBaseUrl.CurrentServerUrl;
+            HttpRequest httpRequest = _httpContextAccessor.HttpContext.Request;
+            string apiUrl = $"{httpRequest.Scheme}://{httpRequest.Host}";
             return $"{apiUrl}{path}/{fileNameWithExt}";
         }
     }
