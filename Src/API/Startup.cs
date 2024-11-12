@@ -59,10 +59,11 @@ namespace Api
             app.UseRouting();
 
             app.UseStaticFiles();  //tut 45
+            
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                          Path.Combine(Directory.GetCurrentDirectory(), "Content")
+                          Path.Combine(_configuration["Content:ErpPath"] ?? Directory.GetCurrentDirectory(), "Content")
                       ),
                 RequestPath = "/content"
             });

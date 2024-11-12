@@ -43,7 +43,7 @@ namespace API.Controllers.v1
         [HttpGet("browse-category-resource")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<BrowseCategoryPageResourceDto>> GetBrowseCategoryPageResourceDto()
+        public async Task<ActionResult<BrowseCategoryPageResourceDto>> GetBrowseCategoryPageResource()
         {   
             return await _bootstrapService.GetBrowseCategoryPageResource();
         }

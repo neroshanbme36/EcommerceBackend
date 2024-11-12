@@ -5,5 +5,6 @@ namespace Application.Models
     {
         public string StoreLogosPath {get; set;} = string.Empty;
         public string NoImagePath {get; set;} = string.Empty;
+        public string ErpPath {get; set;} = string.Empty;
     }
 }
