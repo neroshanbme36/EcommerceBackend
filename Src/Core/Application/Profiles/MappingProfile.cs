@@ -23,7 +23,8 @@ namespace Application.Profiles
       // CreateMap<Source, Destination>();
       #region Store
       CreateMap<Domain.Entities.Store, StoreDto>()
-        .ForMember(dest => dest.LogoImgUrl, opt => opt.MapFrom<StoreLogoImgUrlResolver>());
+        .ForMember(dest => dest.LogoImgUrl, opt => opt.MapFrom<StoreLogoImgUrlResolver>())
+        .ForMember(dest => dest.CurrencySymbol, opt => opt.MapFrom<StoreCurrencySymbolResolver>());
       #endregion Store
       #region CUSTOMER
       CreateMap<CustomerAddress, CustomerAddressDto>();
@@ -35,6 +36,7 @@ namespace Application.Profiles
       #region Department
       CreateMap<Department, DepartmentDto>();
       CreateMap<DepartmentDto, DepartmentProductMinifyDto>();
+      CreateMap<Department, DepartmentMinifyDto>();
       #endregion Department
       #region PRODUCT
       CreateMap<Product, Dtos.Product.ProductDto>();
@@ -67,10 +69,10 @@ namespace Application.Profiles
       CreateMap<EposTransactionHeader, OrderHeaderDto>();
       CreateMap<EposTransactionLine, OrderLineDto>();
       //CreateMap<RepairPaymentDto, PaymentDto>();
-      CreateMap<EposTransHeaderInputDto, CartHeaderInputDto>()
-        .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.Guid));
-      CreateMap<EposTransLineInputDto, CartLineInputDto>()
-        .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.Guid));
+      CreateMap<CartHeaderInputDto, EposTransHeaderInputDto>()
+        .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.CartId));
+      CreateMap<CartLineInputDto, EposTransLineInputDto>()
+        .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.CartId));
       #endregion EPOS TRANSACTION
       #endregion EPOS
     }

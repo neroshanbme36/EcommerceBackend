@@ -19,5 +19,6 @@ namespace Application.Dtos.Store
         public bool IsActive { get; set; }
         public string CountryId { get; set; } = string.Empty;
         public string? LogoImgUrl {get; set;}
+        public string CurrencySymbol {get; set;} = string.Empty;
     }
 }

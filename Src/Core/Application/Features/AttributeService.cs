@@ -1,7 +1,7 @@
 using Application.Contracts.Features;
 using Application.Contracts.Persistence;
 using Application.Dtos.Attribute;
-using AutoMapper;
+using Application.Dtos.Store;
 using Domain.Entities;
 
 namespace Application.Features
@@ -9,18 +9,18 @@ namespace Application.Features
     public class AttributeService : IAttributeService
     {
         private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
+        private readonly IStoreService _storeService;
 
-        public AttributeService(IUnitOfWork uow, IMapper mapper)
+        public AttributeService(IUnitOfWork uow, IStoreService storeService)
         {
             _uow = uow;
-            _mapper = mapper;
+            _storeService = storeService;
         }
 
         public async Task<IReadOnlyList<AttributeDto>> GetAttributeValues()
         {
             List<AttributeDto> attributeDtos = new List<AttributeDto>();
-
+            StoreDto store = await _storeService.GetStore();
             IReadOnlyList<Department> departments = await _uow.DepartmentRepository.GetDepartments();
             if (departments.Count > 0)
             {
@@ -60,7 +60,7 @@ namespace Application.Features
             {
                 Name = "Price",
                 PluralName = "Price",
-                PrefixValueText = "GBP",
+                PrefixValueText = store.CurrencySymbol,
                 FilterType = "Range",
                 Style = "Slider",
                 Priority = 1 + attributeDtos.Count,
