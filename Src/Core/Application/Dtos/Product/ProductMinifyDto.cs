@@ -16,5 +16,6 @@ namespace Application.Dtos.Product
         public decimal DiscPercentage { get; set; }
         public string? ThumbnailUrl { get; set; }
         public float Rating {get; set;}
+        public string DepartmentId { get; set; } = string.Empty;
     }
 }

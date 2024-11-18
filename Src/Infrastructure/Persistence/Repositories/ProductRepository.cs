@@ -37,6 +37,7 @@ namespace Persistence.Repositories
         public async Task<Product?> GetProductDetailByDescription(string description)
         {
             return await _dbContext.Products
+                .Include(c => c.ProductDepartments).ThenInclude(c => c.Department)
                 .Include(c => c.ProductTags).ThenInclude(c => c.Tag)
                 .FirstOrDefaultAsync(c => c.ShowInEcommerce && c.Description == description);
         }

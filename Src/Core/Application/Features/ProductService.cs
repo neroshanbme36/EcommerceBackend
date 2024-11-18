@@ -92,6 +92,11 @@ namespace Application.Features
 
             ProductDetailDto productDetailDto = _mapper.Map<ProductDetailDto>(product);
             await BindMediaFiles(productDetailDto);
+            if (product.ProductDepartments.Count > 0)
+            {
+                IReadOnlyList<Department> departments = product.ProductDepartments.Select(c => c.Department).ToList();
+                productDetailDto.Departments = _mapper.Map<IReadOnlyList<DepartmentMinifyDto>>(departments);
+            }
             if (product.ProductTags.Count > 0)
             {
                 IReadOnlyList<Tag> tags = product.ProductTags.Select(c => c.Tag).ToList();

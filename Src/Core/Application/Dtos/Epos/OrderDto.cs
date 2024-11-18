@@ -15,7 +15,7 @@ namespace Application.Dtos.CloudStoreEpos.Epos
         {
             Header = header;
             OrderSummary = new OrderSummaryDto();
-            if (lines.Count > 0)
+            if (lines != null && lines.Count > 0)
             {
                 lines = lines.OrderBy(c => c.LineNo).ToList();
                 List<OrderLineDto> parentProdLines = lines.Where(x => !x.IsModifier).ToList();
