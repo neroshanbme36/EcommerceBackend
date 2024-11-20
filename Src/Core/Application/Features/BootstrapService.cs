@@ -15,11 +15,13 @@ namespace Application.Features
         private readonly IAttributeService _attributeService;
         private readonly ICountryService _countryService;
         private readonly ICartService _cartService;
+        private readonly IWishlistProductService _wishlistProductService;
 
         public BootstrapService(IStoreService storeService, IConfigurationService configurationService,
         IDepartmentService departmentService, IAuthService authService,
         IBannerService bannerService, IProductService productService,
-        IAttributeService attributeService, ICountryService countryService, ICartService cartService)
+        IAttributeService attributeService, ICountryService countryService, ICartService cartService,
+        IWishlistProductService wishlistProductService)
         {
             _storeService = storeService;
             _configurationService = configurationService;
@@ -30,6 +32,7 @@ namespace Application.Features
             _attributeService = attributeService;
             _countryService = countryService;
             _cartService = cartService;
+            _wishlistProductService = wishlistProductService;
         }
 
         public async Task<PrimeBaseResponseDto> GetPrimeBase(string userEmail, PrimeBaseRequestDto request)
@@ -38,7 +41,13 @@ namespace Application.Features
             response.Store = await _storeService.GetStore();
 
             if (!string.IsNullOrWhiteSpace(userEmail))
+            {
                 response.User = await _authService.GetUserByEmail(userEmail);
+                if (response.User != null)
+                {
+                    response.User.WishlistProducts = await _wishlistProductService.GetWishlistProductsByUserId(response.User.Id);
+                }
+            }
 
             response.Configuration = await _configurationService.GetConfigAttributeValue();
 

@@ -21,22 +21,22 @@ namespace Application.Features
         {
             List<AttributeDto> attributeDtos = new List<AttributeDto>();
             StoreDto store = await _storeService.GetStore();
-            IReadOnlyList<Department> departments = await _uow.DepartmentRepository.GetDepartments();
-            if (departments.Count > 0)
-            {
-                IReadOnlyList<AttributeValueDto> departmentAttributeValues = departments.Select(c => new AttributeValueDto() { Value = c.Id }).ToList();
-                AttributeDto categoryAttributeDto = new AttributeDto
-                {
-                    Name = "Category",
-                    PluralName = "Categories",
-                    FilterType = "Include",
-                    Style = "Checkbox",
-                    Priority = 1 + attributeDtos.Count,
-                    IsSearchable = true,
-                    AttributeValues = departmentAttributeValues
-                };
-                attributeDtos.Add(categoryAttributeDto);
-            }
+            // IReadOnlyList<Department> departments = await _uow.DepartmentRepository.GetDepartments();
+            // if (departments.Count > 0)
+            // {
+            //     IReadOnlyList<AttributeValueDto> departmentAttributeValues = departments.Select(c => new AttributeValueDto() { Value = c.Id }).ToList();
+            //     AttributeDto categoryAttributeDto = new AttributeDto
+            //     {
+            //         Name = "Category",
+            //         PluralName = "Categories",
+            //         FilterType = "Include",
+            //         Style = "Checkbox",
+            //         Priority = 1 + attributeDtos.Count,
+            //         IsSearchable = true,
+            //         AttributeValues = departmentAttributeValues
+            //     };
+            //     attributeDtos.Add(categoryAttributeDto);
+            // }
 
             IReadOnlyList<Brand> brands = await _uow.BrandRepository.GetBrands();
             if (brands.Count > 0)

@@ -1,3 +1,5 @@
+using Application.Dtos.WishlistProduct;
+
 namespace Application.Dtos.Identity
 {
     public class UserDto
@@ -9,5 +11,6 @@ namespace Application.Dtos.Identity
         public string UserName {get; set;} = string.Empty;
         public string PhoneNumber {get; set;} = string.Empty;
         public string RoleName {get; set;} = string.Empty;
+        public IReadOnlyList<WishlistProductDto> WishlistProducts {get; set;} = new List<WishlistProductDto>();
     }
 }
