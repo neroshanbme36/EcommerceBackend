@@ -166,7 +166,7 @@ namespace Identity.Services
         throw new InternalServerErrorException("Logout of push notification failed please try again");
     }
 
-    public async Task<UserDto> Register(RegistrationDto request)
+    public async Task<UserDto> Register(RegistrationDto request, string role)
     {
       var existingEmail = await _userManager.FindByEmailAsync(request.Email);
 
@@ -188,7 +188,7 @@ namespace Identity.Services
       if (!result.Succeeded)
         throw new BadRequestException($"{GetIdentityErrorMessage(result.Errors)}");
 
-      await _userManager.AddToRoleAsync(user, request.Role);
+      await _userManager.AddToRoleAsync(user, role);
 
       return await MapUserDto(user);
     }

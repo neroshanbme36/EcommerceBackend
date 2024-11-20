@@ -42,7 +42,9 @@ namespace Application.Features
 
             if (!string.IsNullOrWhiteSpace(userEmail))
             {
-                response.User = await _authService.GetUserByEmail(userEmail);
+                try {
+                    response.User = await _authService.GetUserByEmail(userEmail);
+                } catch {}
                 if (response.User != null)
                 {
                     response.User.WishlistProducts = await _wishlistProductService.GetWishlistProductsByUserId(response.User.Id);

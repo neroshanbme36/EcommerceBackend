@@ -3,6 +3,7 @@ using Api.Controllers.Common;
 using Api.Errors;
 using Api.Extensions;
 using Api.Middlewares.Builders;
+using Application.Constants;
 using Application.Contracts.Features;
 using Application.Contracts.Identity;
 using Application.Dtos.Identity;
@@ -34,7 +35,7 @@ namespace Api.Controllers.v1
         [ProducesResponseType(typeof(ApiException), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserDto>> Register(RegistrationDto request)
         {
-            return await _authenticationService.Register(request);
+            return await _authenticationService.Register(request, RoleNames.EcommerceCustomer);
         }
 
         [AllowAnonymous]
