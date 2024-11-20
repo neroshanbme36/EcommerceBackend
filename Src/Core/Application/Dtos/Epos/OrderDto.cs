@@ -139,6 +139,7 @@ namespace Application.Dtos.CloudStoreEpos.Epos
         public bool Scanned { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime CreatedOnGmt { get; set; }
+        public string? ThumbnailUrl { get; set; }
         public List<ModifierHeaderOrderDto> ModifierHeaders { get; set; } = new List<ModifierHeaderOrderDto>();
     }
 

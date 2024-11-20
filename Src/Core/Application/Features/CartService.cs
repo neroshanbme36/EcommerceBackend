@@ -22,9 +22,10 @@ namespace Application.Features
         private readonly IEposAccountApiService _eposAccountApiService;
         private readonly IUnitOfWork _uow;
         private readonly IDeviceService _deviceService;
+        private readonly IMediaFileService _mediaFileService;
 
         public CartService(IEposTransactionApiService eposTransApiService, IMapper mapper, IAppAccessTokenService appAccessTokenService, IEposAccountApiService eposAccountApiService, 
-        IUnitOfWork uow, IDeviceService deviceService, IOptions<MicroservicesBaseUrl> microservicesBaseUrl)
+        IUnitOfWork uow, IDeviceService deviceService, IOptions<MicroservicesBaseUrl> microservicesBaseUrl, IMediaFileService mediaFileService)
         {
             _eposTransApiService = eposTransApiService;
             _eposAppName = microservicesBaseUrl.Value.EposAppName;
@@ -33,6 +34,7 @@ namespace Application.Features
             _eposAccountApiService = eposAccountApiService;
             _uow = uow;
             _deviceService = deviceService;
+            _mediaFileService = mediaFileService;
         }
 
         private async Task<bool> SaveUnCommitedChanges()
@@ -51,6 +53,7 @@ namespace Application.Features
             try
             {
                 order = await _eposTransApiService.GetTransactionByGuid(appAccessToken.Token, device.ProductKey, device.Id, cartId);
+                if (order != null) order = await _mediaFileService.MapMediaFileToOrder(order);
             }
             catch (UnauthorizedException ex)
             {
@@ -82,6 +85,7 @@ namespace Application.Features
             try
             {
                 order = await _eposTransApiService.InsertOrUpdateHeader(appAccessToken.Token, device.ProductKey, device.Id, request);
+                if (order != null) order = await _mediaFileService.MapMediaFileToOrder(order);
             }
             catch (UnauthorizedException ex)
             {
@@ -109,6 +113,10 @@ namespace Application.Features
             try
             {
                 productSearchResultDto = await _eposTransApiService.InsertOrUpdateLine(appAccessToken.Token, device.ProductKey, device.Id, request);
+                if (productSearchResultDto != null)
+                {
+                    if (productSearchResultDto.Order != null) productSearchResultDto.Order = await _mediaFileService.MapMediaFileToOrder(productSearchResultDto.Order);
+                }
             }
             catch (UnauthorizedException ex)
             {

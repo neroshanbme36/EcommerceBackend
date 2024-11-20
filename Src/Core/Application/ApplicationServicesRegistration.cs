@@ -33,6 +33,7 @@ namespace Application
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IAppAccessTokenService, AppAccessTokenService>();
             services.AddScoped<IDeviceService, DeviceService>();
+            services.AddScoped<IMediaFileService, MediaFileService>();
             return services;
         }
     }
