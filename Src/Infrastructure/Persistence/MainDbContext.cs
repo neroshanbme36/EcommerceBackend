@@ -66,6 +66,8 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new PostedTransactionHeaderConfiguration());
       modelBuilder.ApplyConfiguration(new PostedTransactionLineConfiguration());
       modelBuilder.ApplyConfiguration(new AppAccessTokenConfigurations());
+      modelBuilder.ApplyConfiguration(new ShippingZoneConfigurations());
+      modelBuilder.ApplyConfiguration(new ShippingZonePostcodeConfigurations());
     }
 
     public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
@@ -97,5 +99,7 @@ namespace Persistence
     public DbSet<CustomerAddress> CustomerAddresses {get; set;}
     public DbSet<WishlistProduct> WishlistProducts {get; set;}
     public DbSet<AppAccessToken> AppAccessTokens {get; set;}
+    public DbSet<ShippingZone> ShippingZones {get; set;}
+    public DbSet<ShippingZonePostcode> ShippingZonePostcodes {get; set;}
   }
 }
