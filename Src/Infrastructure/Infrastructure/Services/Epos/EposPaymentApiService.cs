@@ -27,7 +27,7 @@ namespace Infrastructure.Services.Epos
             _eposAccountApiService = eposAccountApiService;
         }
 
-        public async Task<PaymentResultDto?> PostPayment(string eposApiKey, string deviceId, PaymentDto request)
+        public async Task<PaymentResultDto?> PostPayment(string token, string eposApiKey, string deviceId, PaymentDto request)
         {
             string requestUrl = $"{ApiVersion}/payments";
             string accessToken = $"Bearer {await _eposAccountApiService.GetAccessToken(eposApiKey, deviceId)}";

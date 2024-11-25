@@ -34,6 +34,15 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IReadOnlyList<Product>> GetProductsWithManageStockByItemNos(IReadOnlyList<string> itemNos)
+        {
+            return await _dbContext.Products
+                .Where(c => c.ShowInEcommerce &&
+                itemNos.Contains(c.ItemNo)
+                && c.ManageStock)
+                .ToListAsync();
+        }
+
         public async Task<Product?> GetProductDetailByDescription(string description)
         {
             return await _dbContext.Products

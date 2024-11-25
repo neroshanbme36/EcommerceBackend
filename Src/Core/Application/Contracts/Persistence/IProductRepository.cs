@@ -13,5 +13,6 @@ namespace Application.Contracts.Persistence
         Task<bool> IsAnyByItemNo(string itemNo);
         Task<Pagination<Product>> GetProducts(ProductParams productParams);
         Task<IReadOnlyList<Product>> GetWishlistProductsByUserId(string userId);
+        Task<IReadOnlyList<Product>> GetProductsWithManageStockByItemNos(IReadOnlyList<string> itemNos);
     }
 }

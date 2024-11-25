@@ -5,6 +5,6 @@ namespace Application.Contracts.Infrastructure.Epos
 {
     public interface IEposPaymentApiService
     {
-         Task<PaymentResultDto?> PostPayment(string eposApiKey, string deviceId, PaymentDto request);
+         Task<PaymentResultDto?> PostPayment(string token, string eposApiKey, string deviceId, PaymentDto request);
     }
 }

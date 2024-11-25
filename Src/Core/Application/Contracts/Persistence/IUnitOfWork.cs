@@ -23,5 +23,7 @@ namespace Application.Contracts.Persistence
     IPostedTransactionHeaderRepository PostedTransactionHeaderRepository {get;}
     IPostedTransactionLineRepository PostedTransactionLineRepository {get;}
     IAppAccessTokenRepository AppAccessTokenRepository {get;}
+    IEposTransactionHeaderRepository EposTransactionHeaderRepository {get;}
+    IShippingZoneRepository ShippingZoneRepository {get;}
   }
 }

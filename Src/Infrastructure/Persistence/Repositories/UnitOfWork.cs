@@ -24,7 +24,8 @@ namespace Persistence.Repositories
     private IPostedTransactionHeaderRepository? _postedTransactionHeaderRepository;
     private IPostedTransactionLineRepository? _postedTransactionLineRepository;
     private IAppAccessTokenRepository? _appAccessTokenRepository;
-
+    private IEposTransactionHeaderRepository? _eposTransactionHeaderRepository;
+    private IShippingZoneRepository? _shippingZoneRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -94,5 +95,11 @@ namespace Persistence.Repositories
 
     public IAppAccessTokenRepository AppAccessTokenRepository =>
           _appAccessTokenRepository ??= new AppAccessTokenRepository(_dbContext);
+
+    public IEposTransactionHeaderRepository EposTransactionHeaderRepository =>
+        _eposTransactionHeaderRepository ??= new EposTransactionHeaderRepository(_dbContext);
+
+    public IShippingZoneRepository ShippingZoneRepository =>
+      _shippingZoneRepository ??= new ShippingZoneRepository(_dbContext);
   }
 }

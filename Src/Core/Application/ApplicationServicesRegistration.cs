@@ -34,6 +34,7 @@ namespace Application
             services.AddScoped<IAppAccessTokenService, AppAccessTokenService>();
             services.AddScoped<IDeviceService, DeviceService>();
             services.AddScoped<IMediaFileService, MediaFileService>();
+            services.AddScoped<ICheckoutService, CheckoutService>();
             return services;
         }
     }
