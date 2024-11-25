@@ -6,5 +6,6 @@ namespace Application.Contracts.Persistence
     {
         Task<IReadOnlyList<CustomerAddress>> GetCustomerAddressesByEcommUserId(string ecommUserId);
         Task<CustomerAddress?> GetDefaultCustomerAddress(string ecommUserId, string category);
+        Task<CustomerAddress?> GetCustomerAddressByCategory(long id, string ecommUserId, string category);
     }
 }

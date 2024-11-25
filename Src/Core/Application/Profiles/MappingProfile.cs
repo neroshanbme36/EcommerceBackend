@@ -29,6 +29,7 @@ namespace Application.Profiles
       #region CUSTOMER
       CreateMap<CustomerAddress, CustomerAddressDto>();
       CreateMap<AddOrEditCustomerAddressDto, CustomerAddress>();
+      CreateMap<CustomerAddress, BaseCustomerAddressDto>();
       #endregion CUSTOMER
       #region Country
       CreateMap<Country, CountryDto>();

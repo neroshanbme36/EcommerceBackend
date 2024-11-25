@@ -3,10 +3,12 @@ using Application.Contracts.Infrastructure.Epos;
 using Application.Contracts.Persistence;
 using Application.Dtos.checkout;
 using Application.Dtos.CloudStoreEpos.Epos.Payment;
+using Application.Dtos.CustomerAddress;
 using Application.Enums;
 using Application.Enums.CloudStoreEpos;
 using Application.Exceptions;
 using Application.Models;
+using AutoMapper;
 using Domain.Crm.Entities;
 using Domain.Entities;
 using Domain.Enums.CloudStoreEpos;
@@ -22,9 +24,11 @@ namespace Application.Features
         private readonly IEposAccountApiService _eposAccountApiService;
         private readonly string _eposAppName;
         private readonly IEposPaymentApiService _eposPaymentApiService;
+        private readonly IMapper _mapper;
 
         public CheckoutService(IUnitOfWork uow, IDeviceService deviceService, IAppAccessTokenService appAccessTokenService,
-        IEposAccountApiService eposAccountApiService, IOptions<MicroservicesBaseUrl> microservicesBaseUrl, IEposPaymentApiService eposPaymentApiService)
+        IEposAccountApiService eposAccountApiService, IOptions<MicroservicesBaseUrl> microservicesBaseUrl, IEposPaymentApiService eposPaymentApiService,
+        IMapper mapper)
         {
             _uow = uow;
             _deviceService = deviceService;
@@ -32,6 +36,7 @@ namespace Application.Features
             _eposAccountApiService = eposAccountApiService;
             _eposPaymentApiService = eposPaymentApiService;
             _eposAppName = microservicesBaseUrl.Value.EposAppName;
+            _mapper = mapper;
         }
 
         public async Task<CheckoutResponseDto> ProcessCheckout(string userId, CheckoutRequestDto request)
@@ -45,7 +50,7 @@ namespace Application.Features
             ShippingZone? shippingZone = null;
             if (eposTransactionHeader.OrderType == OrderType.Delivery)
             {
-                shippingZone = await _uow.ShippingZoneRepository.GetShippingZone(request.ShippingAddress.CountryId, request.ShippingAddress.Postcode);
+                shippingZone = await _uow.ShippingZoneRepository.GetShippingZone(request.ShippingAddress.CountryId, request.ShippingAddress.PostCode);
                 if (shippingZone == null) return new CheckoutResponseDto("Out of shipping range" );
             }
             #endregion SHIPPING RANGE
@@ -58,7 +63,7 @@ namespace Application.Features
             // order limits
             // Validate Loyalty
 
-            eposTransactionHeader = MapToEposTransactionHeader(userId, eposTransactionHeader, request);
+            await MapToEposTransactionHeader(userId, eposTransactionHeader, request);
             await _uow.EposTransactionHeaderRepository.Update(eposTransactionHeader);
             bool isSaved = await SaveUnCommitedChanges();
             if (!isSaved) return new CheckoutResponseDto("Cart save failed");
@@ -103,7 +108,7 @@ namespace Application.Features
             return string.Empty;
         }
 
-        private EposTransactionHeader MapToEposTransactionHeader(string userId, EposTransactionHeader eposTransactionHeader, CheckoutRequestDto request)
+        private async Task MapToEposTransactionHeader(string userId, EposTransactionHeader eposTransactionHeader, CheckoutRequestDto request)
         {
             eposTransactionHeader.OrderType = request.OrderType;
             eposTransactionHeader.IsScheduledOrder = request.IsScheduledOrder;
@@ -114,6 +119,14 @@ namespace Application.Features
             eposTransactionHeader.CustEmail = request.Email;
             if (request.BillingAddress != null)
             {
+                if (request.BillingAddress.Id > 0)
+                {
+                    CustomerAddress? billingCustomerAddress = await _uow.CustomerAddressRepository.GetCustomerAddressByCategory(request.BillingAddress.Id, userId, "Billing");
+                    if (billingCustomerAddress != null)
+                        request.BillingAddress = _mapper.Map<BaseCustomerAddressDto>(billingCustomerAddress);
+                    else
+                        request.BillingAddress.Id = 0;
+                }
                 eposTransactionHeader.CustFirstName = request.BillingAddress.FirstName;
                 eposTransactionHeader.CustLastName = request.BillingAddress.LastName;
                 eposTransactionHeader.CustPhone = request.BillingAddress.Phone;
@@ -125,11 +138,19 @@ namespace Application.Features
                 eposTransactionHeader.BillAddressLine4 = request.BillingAddress.AddressLine4;
                 eposTransactionHeader.BillCity = request.BillingAddress.City;
                 eposTransactionHeader.BillState = request.BillingAddress.State;
-                eposTransactionHeader.BillPostcode = request.BillingAddress.Postcode;
+                eposTransactionHeader.BillPostcode = request.BillingAddress.PostCode;
                 eposTransactionHeader.BillCountryId = request.BillingAddress.CountryId;
             }
             if (request.ShippingAddress != null)
             {
+                if (request.ShippingAddress.Id > 0)
+                {
+                    CustomerAddress? shippingCustomerAddress = await _uow.CustomerAddressRepository.GetCustomerAddressByCategory(request.ShippingAddress.Id, userId, "Shipping");
+                    if (shippingCustomerAddress != null)
+                        request.ShippingAddress = _mapper.Map<BaseCustomerAddressDto>(shippingCustomerAddress);
+                    else
+                        request.ShippingAddress.Id = 0;
+                }
                 eposTransactionHeader.CustFirstName = request.ShippingAddress.FirstName;
                 eposTransactionHeader.CustLastName = request.ShippingAddress.LastName;
                 eposTransactionHeader.CustPhone = request.ShippingAddress.Phone;
@@ -141,10 +162,9 @@ namespace Application.Features
                 eposTransactionHeader.DeliAddressLine4 = request.ShippingAddress.AddressLine4;
                 eposTransactionHeader.DeliCity = request.ShippingAddress.City;
                 eposTransactionHeader.DeliState = request.ShippingAddress.State;
-                eposTransactionHeader.DeliPostcode = request.ShippingAddress.Postcode;
+                eposTransactionHeader.DeliPostcode = request.ShippingAddress.PostCode;
                 eposTransactionHeader.DeliCountryId = request.ShippingAddress.CountryId;
             }
-            return eposTransactionHeader;
         }
 
         private async Task<CheckoutResponseDto> PostToEposPayment(CheckoutRequestDto request, decimal amount)

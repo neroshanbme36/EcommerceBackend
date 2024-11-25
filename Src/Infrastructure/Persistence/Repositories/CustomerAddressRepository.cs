@@ -22,5 +22,10 @@ namespace Persistence.Repositories
         {
             return await _dbContext.CustomerAddresses.FirstOrDefaultAsync(c => c.EcommUserId == ecommUserId && c.Category == category && c.IsDefault);
         }
+
+        public async Task<CustomerAddress?> GetCustomerAddressByCategory(long id, string ecommUserId, string category)
+        {
+            return await _dbContext.CustomerAddresses.FirstOrDefaultAsync(c => c.Id == id && c.EcommUserId == ecommUserId && c.Category == category);
+        }
     }
 }

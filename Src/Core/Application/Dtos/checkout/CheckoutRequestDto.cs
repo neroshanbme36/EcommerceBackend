@@ -16,8 +16,8 @@ namespace Application.Dtos.checkout
         [StringLength(50)]
         public string Email { get; set; } = string.Empty;
 
-        public AddOrEditCustomerAddressDto? ShippingAddress {get; set;}
-        public AddOrEditCustomerAddressDto? BillingAddress {get; set;}
+        public BaseCustomerAddressDto? ShippingAddress {get; set;}
+        public BaseCustomerAddressDto? BillingAddress {get; set;}
 
         [Required]
         [Range(1, 3, ErrorMessage = "Value for {0} must be between {1} and {2}.")]        
