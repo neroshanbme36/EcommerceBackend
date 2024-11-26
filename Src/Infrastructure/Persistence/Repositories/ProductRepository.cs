@@ -79,6 +79,7 @@ namespace Persistence.Repositories
 
         public async Task<Pagination<Product>> GetProducts(ProductParams productParams)
         {
+            IReadOnlyList<string> categories = string.IsNullOrWhiteSpace(productParams.Category) ? new List<string>() : productParams.Category.Split(',').ToList();
             IReadOnlyList<string> brands = string.IsNullOrWhiteSpace(productParams.Brand) ? new List<string>() : productParams.Brand.Split(',').ToList();
             IReadOnlyList<string> prices = string.IsNullOrWhiteSpace(productParams.Price) ? new List<string>() : productParams.Price.Split(',').ToList();
             IReadOnlyList<int> ratings = string.IsNullOrWhiteSpace(productParams.Rating) ? new List<int>() : productParams.Rating.Split(',').Select(int.Parse).ToList();
@@ -105,8 +106,8 @@ namespace Persistence.Repositories
                 quProducts = quProducts.Where(c => c.Price >= minPrice && c.Price <= maxPrice);
             }
 
-            if (!string.IsNullOrWhiteSpace(productParams.Category))
-                quProducts = quProducts.Where(c => c.DepartmentId == productParams.Category);
+            if (categories.Count > 0)
+                quProducts = quProducts.Where(c => c.ProductDepartments.Any(c => categories.Contains(c.DepartmentId)));
 
             if (brands.Count > 0)
                 quProducts = quProducts.Where(c => brands.Contains(c.Brand));
