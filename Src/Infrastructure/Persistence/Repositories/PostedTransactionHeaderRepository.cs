@@ -19,5 +19,10 @@ namespace Persistence.Repositories
               .Include(c => c.PostedTransactionLines)
               .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task<bool> AnyByEcommOrderId(long ecommOrderId)
+        {
+            return await _dbContext.PostedTransactionHeaders.AnyAsync(c => c.EcommOrderId == ecommOrderId);
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace Application
             services.AddScoped<IDeviceService, DeviceService>();
             services.AddScoped<IMediaFileService, MediaFileService>();
             services.AddScoped<ICheckoutService, CheckoutService>();
+            services.AddScoped<INumberSeriesService, NumberSeriesService>();
             return services;
         }
     }

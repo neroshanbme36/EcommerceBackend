@@ -17,5 +17,17 @@ namespace Persistence.Repositories
         {
             return await _dbContext.EposTransactionHeaders.FirstOrDefaultAsync(c => c.Guid == guid);
         }
+
+        public async Task<EposTransactionHeader?> GetEposTransactionHeaderIncLinesByGuid(string guid)
+        {
+            return await _dbContext.EposTransactionHeaders
+                .Include(c => c.EposTransactionLines)
+                .FirstOrDefaultAsync(c => c.Guid == guid);
+        }
+
+        public async Task<bool> AnyByEcommOrderId(long ecommOrderId)
+        {
+            return await _dbContext.EposTransactionHeaders.AnyAsync(c => c.EcommOrderId == ecommOrderId);
+        }
     }
 }

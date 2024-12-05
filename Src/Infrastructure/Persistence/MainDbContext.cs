@@ -68,6 +68,7 @@ namespace Persistence
       modelBuilder.ApplyConfiguration(new AppAccessTokenConfigurations());
       modelBuilder.ApplyConfiguration(new ShippingZoneConfigurations());
       modelBuilder.ApplyConfiguration(new ShippingZonePostcodeConfigurations());
+      modelBuilder.ApplyConfiguration(new NumberSeriesConfiguration());
     }
 
     public DbSet<Domain.Entities.Attribute> Attributes { get; set; }
@@ -101,5 +102,6 @@ namespace Persistence
     public DbSet<AppAccessToken> AppAccessTokens {get; set;}
     public DbSet<ShippingZone> ShippingZones {get; set;}
     public DbSet<ShippingZonePostcode> ShippingZonePostcodes {get; set;}
+    public DbSet<NumberSeries> NumberSeries {get; set;}
   }
 }

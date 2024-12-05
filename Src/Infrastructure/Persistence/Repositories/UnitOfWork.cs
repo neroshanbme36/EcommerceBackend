@@ -26,6 +26,7 @@ namespace Persistence.Repositories
     private IAppAccessTokenRepository? _appAccessTokenRepository;
     private IEposTransactionHeaderRepository? _eposTransactionHeaderRepository;
     private IShippingZoneRepository? _shippingZoneRepository;
+    private INumberSeriesRepository? _numberSeriesRepository;
 
     public UnitOfWork(MainDbContext dbContext)
     {
@@ -101,5 +102,8 @@ namespace Persistence.Repositories
 
     public IShippingZoneRepository ShippingZoneRepository =>
       _shippingZoneRepository ??= new ShippingZoneRepository(_dbContext);
+
+    public INumberSeriesRepository NumberSeriesRepository =>
+      _numberSeriesRepository ??= new NumberSeriesRepository(_dbContext);
   }
 }

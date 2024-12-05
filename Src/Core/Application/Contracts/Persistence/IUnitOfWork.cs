@@ -25,5 +25,6 @@ namespace Application.Contracts.Persistence
     IAppAccessTokenRepository AppAccessTokenRepository {get;}
     IEposTransactionHeaderRepository EposTransactionHeaderRepository {get;}
     IShippingZoneRepository ShippingZoneRepository {get;}
+    INumberSeriesRepository NumberSeriesRepository {get;}
   }
 }
